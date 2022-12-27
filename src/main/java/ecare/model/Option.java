@@ -55,29 +55,14 @@ public class Option {
         this.optionPrice = optionPrice;
     }
 
+    @ManyToMany(mappedBy = "options", cascade = { CascadeType.ALL })
+    private Set<Tariff> tariffs = new HashSet<>();
 
-    // @ManyToMany(mappedBy = "tariffOptions")
-    @OneToMany(mappedBy = "option")
-    private Set<TariffOption> tariffs = new HashSet<>();
-
-    public Set<TariffOption> getTariffs() {
+    public Set<Tariff> getTariffs() {
         return tariffs;
     }
 
-    public void setTariffs(Set<TariffOption> tariffs) {
+    public void setTariffs(Set<Tariff> tariffs) {
         this.tariffs = tariffs;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Option option = (Option) o;
-        return optionId.equals(option.optionId) && optionName.equals(option.optionName) && optionPrice.equals(option.optionPrice) && Objects.equals(tariffs, option.tariffs);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(optionId, optionName, optionPrice, tariffs);
     }
 }

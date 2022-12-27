@@ -3,7 +3,6 @@ package ecare.service;
 import ecare.dto.TariffDto;
 import ecare.model.Option;
 import ecare.model.Tariff;
-import ecare.model.TariffOption;
 import ecare.repository.OptionRepository;
 import ecare.repository.TariffRepository;
 import org.modelmapper.ModelMapper;
@@ -35,7 +34,6 @@ public class TariffService {
     public TariffDto getById(Long id) throws NotFoundException {
         Optional<Tariff> tariffEntity = tariffRepository.findById(id);
         if (tariffEntity.isPresent()) {
-            List<Option> options = getOptionsToTariff(tariffEntity.get());
 
             //    optionRepository.findAllById(tariffEntity.get().getTariffOptions())
             return convertToDto(tariffEntity.get());
@@ -44,21 +42,6 @@ public class TariffService {
         }
     }
 
-    private List<Option> getOptionsToTariff(Tariff tariffEntity) {
-        List<TariffOption> optionIds = tariffEntity.getTariffOptions().stream().toList();
-        List<Option> options = new ArrayList<>();
-        for (TariffOption optionId : optionIds
-        ) {
-            options.add(optionId.getOption());
-        }
-        return options;
-    }
-
-  /* public Tariff addOption(Tariff tariff, Option option) {
-        tariff.addOption(option);
-      //  optionRepository.save(option);
-        return tariffRepository.save(tariff);
-    }*/
 
     public Tariff addTariff(TariffDto tariffDto) {
         Tariff newTariff = new Tariff(tariffDto.getTariffName(), tariffDto.getTariffPrice());

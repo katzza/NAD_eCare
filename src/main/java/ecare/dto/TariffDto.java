@@ -24,4 +24,12 @@ public class TariffDto {
     public void setTariffName(String tariffName) {
         this.tariffName = tariffName;
     }
+
+    public List<OptionDto> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<OptionDto> options) {
+        this.options = options;
+    }
 }

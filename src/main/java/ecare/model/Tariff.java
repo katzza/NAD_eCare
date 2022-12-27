@@ -69,42 +69,25 @@ public class Tariff {
         return Objects.hash(tariffId, tariffName, tariffPrice);
     }
 
-    //  @JsonIgnore
-    // @OneToMany(mappedBy = "tariff", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
-  /*  private List<Contract> contracts = new ArrayList<>();
+    @ManyToMany(cascade = {
+            CascadeType.ALL
+    }, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "tariffs_options",
+            joinColumns = {
+                    @JoinColumn(name = "tariff_id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "option_id")
+            }
+    )
+    Set<Option> options = new HashSet<>();
 
-    public List<Contract> getContracts() {
-        return contracts;
+    public Set<Option> getOptions() {
+        return options;
     }
 
-    public void setContracts(List<Contract> contracts) {
-        this.contracts = contracts;
-    }*/
-
-    /*   @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-       @JoinTable(
-               name = "tariff_options",
-               joinColumns = { @JoinColumn(name = "tariff_id") },
-               inverseJoinColumns = { @JoinColumn(name = "option_id") }
-       )*/
-    @OneToMany(mappedBy = "tariff")
-    private Set<TariffOption> tariffOptions = new HashSet<>();
-
-  /*  public void addOption(Option option) {
-        this.tariffOptions.add(option);
-        option.getTariffs().add(this);
-    }
-
-    public void removeOption(Option option) {
-        this.tariffOptions.remove(option);
-        option.getTariffs().remove(this);
-    }*/
-
-    public Set<TariffOption> getTariffOptions() {
-        return tariffOptions;
-    }
-
-    public void setTariffOptions(Set<TariffOption> tariffOptions) {
-        this.tariffOptions = tariffOptions;
+    public void setOptions(Set<Option> options) {
+        this.options = options;
     }
 }
