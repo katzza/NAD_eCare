@@ -3,6 +3,7 @@ package ecare.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -10,7 +11,7 @@ import java.util.Set;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "option")
-public class Option {
+public class Option implements Serializable {
 
     @Id
     @Column(name = "option_id")
@@ -55,7 +56,7 @@ public class Option {
         this.optionPrice = optionPrice;
     }
 
-    @ManyToMany(mappedBy = "options", cascade = { CascadeType.ALL })
+    @ManyToMany(mappedBy = "options")
     private Set<Tariff> tariffs = new HashSet<>();
 
     public Set<Tariff> getTariffs() {
@@ -64,5 +65,18 @@ public class Option {
 
     public void setTariffs(Set<Tariff> tariffs) {
         this.tariffs = tariffs;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Option option = (Option) o;
+        return optionId.equals(option.optionId) && optionName.equals(option.optionName) && optionPrice.equals(option.optionPrice);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(optionId, optionName, optionPrice);
     }
 }

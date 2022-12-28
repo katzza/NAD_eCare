@@ -9,7 +9,9 @@ import ecare.service.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @Component
 public class InitData implements CommandLineRunner {
 
@@ -38,12 +40,30 @@ public class InitData implements CommandLineRunner {
         Tariff tariffL = tariffService.saveTariff(new Tariff("Tariff L: 500 min 50 Gb", 15.0));
 
         tariffL.getOptions().add(spotify);
-        tariffL.getOptions().add(hotspot);
         spotify.getTariffs().add(tariffL);
+        tariffService.saveTariff(tariffL);
+
+        tariffL.getOptions().add(hotspot);
         hotspot.getTariffs().add(tariffL);
         tariffService.saveTariff(tariffL);
 
+        tariffM.getOptions().add(spotify);
+        spotify.getTariffs().add(tariffM);
+        tariffService.saveTariff(tariffM);
+
+     /*   tariffL.addOption(spotify);
+        tariffService.saveTariff(tariffL);
+        tariffL.addOption(hotspot);
+        tariffService.saveTariff(tariffL);*/
+
+
         Contract contract = new Contract(tariffS, "3127670");
+        contractService.saveContract(contract);
+
+        contract.getOptions().add(spotify);
+        contractService.saveContract(contract);
+
+        contract.getOptions().add(hotspot);
         contractService.saveContract(contract);
 
         System.out.println(tariffService.getAllTariffs().stream());

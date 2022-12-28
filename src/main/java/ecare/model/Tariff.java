@@ -3,6 +3,7 @@ package ecare.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -10,7 +11,7 @@ import java.util.Set;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "tariff")
-public class Tariff {
+public class Tariff implements Serializable {
 
     @Id
     @Column(name = "tariff_id")
@@ -61,7 +62,7 @@ public class Tariff {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Tariff tariff = (Tariff) o;
-        return tariffId == tariff.tariffId && Objects.equals(tariffName, tariff.tariffName) && Objects.equals(tariffPrice, tariff.tariffPrice);
+        return tariffId.equals(tariff.tariffId) && tariffName.equals(tariff.tariffName) && tariffPrice.equals(tariff.tariffPrice);
     }
 
     @Override
@@ -70,7 +71,7 @@ public class Tariff {
     }
 
     @ManyToMany(cascade = {
-            CascadeType.ALL
+            CascadeType.PERSIST, CascadeType.MERGE
     }, fetch = FetchType.EAGER)
     @JoinTable(
             name = "tariffs_options",
@@ -90,4 +91,6 @@ public class Tariff {
     public void setOptions(Set<Option> options) {
         this.options = options;
     }
+
 }
+

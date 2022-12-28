@@ -2,6 +2,7 @@ package ecare;
 
 import ecare.dto.ContractDto;
 import ecare.dto.TariffDto;
+import ecare.model.Tariff;
 import ecare.service.ContractService;
 import ecare.service.TariffService;
 import org.jboss.logging.Logger;
@@ -33,8 +34,14 @@ public class Recource {
         return tariffService.getAllTariffs();
     }
 
+ /*   @PostMapping("/addoption")
+    public void addoption() {
+        LOGGER.info("Add option to contract");
+        return tariffService.addOption();
+    }*/
+
     @GetMapping("{id}")
-    public TariffDto getById(@PathVariable("id") Long id) throws NotFoundException {
+    public TariffDto getById(@PathVariable("id") Long id) throws Exception {
         LOGGER.info("GET tariff by id");
         return tariffService.getById(id);
     }

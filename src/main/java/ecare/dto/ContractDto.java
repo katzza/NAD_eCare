@@ -1,11 +1,15 @@
 package ecare.dto;
 
 
+import java.util.List;
+
 public class ContractDto {
 
     private int contractId;
     private String businessId;
     private String tariffName;
+
+    private List<OptionDto> options;
 
     public int getContractId() {
         return contractId;
@@ -29,5 +33,13 @@ public class ContractDto {
 
     public void setTariffName(String tariffName) {
         this.tariffName = tariffName;
+    }
+
+    public List<OptionDto> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<OptionDto> options) {
+        this.options = options;
     }
 }
