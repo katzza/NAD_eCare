@@ -5,6 +5,7 @@ import java.util.Objects;
 
 public class TariffDto {
 
+    private Long tariffId;
     private Double tariffPrice;
     private String tariffName;
 
@@ -32,6 +33,14 @@ public class TariffDto {
 
     public void setOptions(List<OptionDto> options) {
         this.options = options;
+    }
+
+    public Long getTariffId() {
+        return tariffId;
+    }
+
+    public void setTariffId(Long tariffId) {
+        this.tariffId = tariffId;
     }
 
     @Override

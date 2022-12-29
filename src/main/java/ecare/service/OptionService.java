@@ -1,5 +1,6 @@
 package ecare.service;
 
+import ecare.dto.OptionDto;
 import ecare.model.Option;
 import ecare.repository.OptionRepository;
 import org.modelmapper.ModelMapper;
@@ -21,17 +22,23 @@ public class OptionService {
         return optionRepository.save(option);
     }
 
-    public Option findById(Long optionId) {
-        return optionRepository.findById(optionId).orElseThrow(() -> new EntityNotFoundException(optionId.toString()));
+    public OptionDto findById(Long optionId) {
+        Option option = optionRepository.findById(optionId).orElseThrow(() -> new EntityNotFoundException(optionId.toString()));
+        return convertToDto(option);
+    }
+
+    public Option findEntityById(Long optionId) {
+        Option option = optionRepository.findById(optionId).orElseThrow(() -> new EntityNotFoundException(optionId.toString()));
+        return option;
     }
 
   /*  public List<OptionDto> getOptionsByTariffId(String tariffId) {
         List<Option> optionEntities = optionRepository.findByTariff(tariffId);
         return optionEntities.stream().map(this::convertToDto).toList();
-    }
+    }*/
 
     private OptionDto convertToDto(Option optionEntity) {
         return modelMapper.map(optionEntity, OptionDto.class);
-    }*/
+    }
 
 }

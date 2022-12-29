@@ -13,7 +13,7 @@ INSERT INTO option (option_id, option_name, option_price)
 VALUES (23, 'Test-Spotify', 6.);
 
 INSERT INTO contract (contract_id, business_id, tariff_id)
-VALUES (31, '777', 11);
+VALUES (31, '777', 12);
 
 INSERT INTO tariff_option (tariff_id, option_id)
 VALUES (12, 21);

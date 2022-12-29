@@ -42,7 +42,7 @@ public class Recource {
     @GetMapping("{id}")
     public TariffDto getById(@PathVariable("id") Long id) throws Exception {
         LOGGER.info("GET tariff by id");
-        return tariffService.getById(id);
+        return tariffService.findById(id);
     }
 
     @GetMapping("/contracts")

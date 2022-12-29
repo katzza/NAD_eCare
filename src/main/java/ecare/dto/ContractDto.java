@@ -5,17 +5,17 @@ import java.util.List;
 
 public class ContractDto {
 
-    private int contractId;
+    private Long contractId;
     private String businessId;
     private TariffDto tariff;
 
     private List<OptionDto> options;
 
-    public int getContractId() {
+    public Long getContractId() {
         return contractId;
     }
 
-    public void setContractId(int contractId) {
+    public void setContractId(Long contractId) {
         this.contractId = contractId;
     }
 
@@ -42,4 +42,6 @@ public class ContractDto {
     public void setOptions(List<OptionDto> options) {
         this.options = options;
     }
+
+
 }

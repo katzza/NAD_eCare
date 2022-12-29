@@ -1,7 +1,6 @@
 package ecare.service;
 
 import ecare.dto.TariffDto;
-import ecare.model.Option;
 import ecare.model.Tariff;
 
 import ecare.repository.TariffRepository;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,7 +27,7 @@ public class TariffService {
         return tariffEntities.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
-    public TariffDto getById(Long id) throws Exception {
+    public TariffDto findById(Long id) throws Exception {
         Optional<Tariff> tariffEntity = tariffRepository.findById(id);
         if (tariffEntity.isPresent()) {
             return convertToDto(tariffEntity.get());

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,13 +34,23 @@ public class ContractService {
         return contractEntities.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
-    public Contract findById(Long contractId) {
-        return contractRepository.findById(contractId).orElseThrow(() -> new EntityNotFoundException(contractId.toString()));
+    public ContractDto findById(Long contractId) {
+        Contract contractEntity = contractRepository.findById(contractId).orElseThrow(() -> new EntityNotFoundException(contractId.toString()));
+        return convertToDto(contractEntity);
     }
 
-    public Contract setTariffToContract(Contract contract, Long tariffId) throws Exception {
+    /**
+     * By tariff-change all options from the previos tariff will be deleted
+     * @param contractId id of contract to be changed
+     * @param tariffId id of new tariff to the contract
+     * @return updated contract with the new tariff
+     * @throws Exception when entity not found
+     */
+    public Contract setTariffToContract(Long contractId, Long tariffId) throws Exception {
+        Contract contract = contractRepository.findById(contractId).get();
         Tariff tariff = tariffService.getEntityById(tariffId);
         contract.setTariff(tariff);
+        contract.setOptions(new HashSet<>());
         return contractRepository.save(contract);
     }
 
@@ -55,8 +66,16 @@ public class ContractService {
     public Contract addOption(Long contractId, Long optionId) {
         //todo not found + errors
         Contract contract = contractRepository.findById(contractId).get();
-        Option option = optionService.findById(optionId);
+        Option option = optionService.findEntityById(optionId);
         contract.getOptions().add(option);
+        return contractRepository.save(contract);
+    }
+
+    public Contract removeOption(Long contractId, Long optionId) {
+        //todo not found + errors
+        Contract contract = contractRepository.findById(contractId).get();
+        Option option = optionService.findEntityById(optionId);
+        contract.getOptions().remove(option);
         return contractRepository.save(contract);
     }
 
