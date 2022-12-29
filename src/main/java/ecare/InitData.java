@@ -60,16 +60,16 @@ public class InitData implements CommandLineRunner {
         Contract contract = new Contract(tariffS, "3127670");
         contractService.saveContract(contract);
 
-        contract.getOptions().add(spotify);
+      /*  contract.getOptions().add(spotify);
         contractService.saveContract(contract);
 
         contract.getOptions().add(hotspot);
         contractService.saveContract(contract);
 
-        contractService.addOption(1L,1L);
+     //   contractService.addOption(1L,1L);
         contractService.saveContract(contract);
 
-        System.out.println(tariffService.getAllTariffs().stream());
+        System.out.println(tariffService.getAllTariffs().stream());*/
     }
 
 }

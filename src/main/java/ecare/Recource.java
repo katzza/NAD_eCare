@@ -34,7 +34,8 @@ public class Recource {
     }
 
     @PostMapping("/addoption")
-    public Contract addoption(Long contractId, Long optionId) {
+    @ResponseBody
+    public Contract addoption(@RequestParam Long contractId, @RequestParam Long optionId) {
         LOGGER.info("Add option to contract");
         return contractService.addOption(contractId, optionId);
     }
