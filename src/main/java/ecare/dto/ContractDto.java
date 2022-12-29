@@ -7,7 +7,7 @@ public class ContractDto {
 
     private int contractId;
     private String businessId;
-    private TariffDto tariffDto;
+    private TariffDto tariff;
 
     private List<OptionDto> options;
 
@@ -27,12 +27,12 @@ public class ContractDto {
         this.businessId = businessId;
     }
 
-    public TariffDto getTariffDto() {
-        return tariffDto;
+    public TariffDto getTariff() {
+        return tariff;
     }
 
-    public void setTariffDto(TariffDto tariffDto) {
-        this.tariffDto = tariffDto;
+    public void setTariff(TariffDto tariff) {
+        this.tariff = tariff;
     }
 
     public List<OptionDto> getOptions() {

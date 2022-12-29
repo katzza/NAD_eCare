@@ -46,7 +46,7 @@ class ContractServiceTest {
         TariffDto tariffDto = tariffService.getById(12L);
         ContractDto contractDto = new ContractDto();
         contractDto.setBusinessId("3245");
-        contractDto.setTariffDto(tariffDto);
+        contractDto.setTariff(tariffDto);
         Contract contract = contractService.createContract(contractDto);
 
 

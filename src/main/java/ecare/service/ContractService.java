@@ -62,12 +62,11 @@ public class ContractService {
 
     public ContractDto convertToDto(Contract contractEntity) {
         ContractDto contract = modelMapper.map(contractEntity, ContractDto.class);
-        //  contract.setTariffName(contractEntity.getTariff().getTariffName());
+        contract.setTariff(modelMapper.map(contractEntity.getTariff(), TariffDto.class));
         return contract;
     }
 
     public Contract convertToEntity(ContractDto contractDto) {
-        Contract contract = modelMapper.map(contractDto, Contract.class);
-        return contract;
+        return modelMapper.map(contractDto, Contract.class);
     }
 }

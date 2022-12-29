@@ -62,13 +62,11 @@ public class TariffService {
     }
 
     public TariffDto convertToDto(Tariff tariffEntity) {
-        TariffDto tariff = modelMapper.map(tariffEntity, TariffDto.class);
-        return tariff;
+        return modelMapper.map(tariffEntity, TariffDto.class);
     }
 
     public Tariff convertToEntity(TariffDto tariffDto) {
-        Tariff tariff = modelMapper.map(tariffDto, Tariff.class);
-        return tariff;
+        return modelMapper.map(tariffDto, Tariff.class);
     }
 
 }
