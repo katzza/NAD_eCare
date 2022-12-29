@@ -74,7 +74,7 @@ public class Tariff implements Serializable {
             CascadeType.PERSIST, CascadeType.MERGE
     }, fetch = FetchType.EAGER)
     @JoinTable(
-            name = "tariffs_options",
+            name = "tariff_option",
             joinColumns = {
                     @JoinColumn(name = "tariff_id")
             },

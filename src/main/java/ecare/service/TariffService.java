@@ -38,6 +38,14 @@ public class TariffService {
         }
     }
 
+    public Tariff getEntityById(Long id) throws Exception {
+        Optional<Tariff> tariffEntity = tariffRepository.findById(id);
+        if (tariffEntity.isPresent()) {
+            return tariffEntity.get();
+        } else {
+            throw new Exception("Error 404 Not found");
+        }
+    }
 
 
     public Tariff addTariff(TariffDto tariffDto) {
@@ -55,6 +63,11 @@ public class TariffService {
 
     public TariffDto convertToDto(Tariff tariffEntity) {
         TariffDto tariff = modelMapper.map(tariffEntity, TariffDto.class);
+        return tariff;
+    }
+
+    public Tariff convertToEntity(TariffDto tariffDto) {
+        Tariff tariff = modelMapper.map(tariffDto, Tariff.class);
         return tariff;
     }
 

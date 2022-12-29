@@ -29,7 +29,7 @@ public class InitData implements CommandLineRunner {
 
         Option multiSIM = new Option("MultiSIM", 5.5);
         Option hotspot = new Option("Hotspot Flat", 9.0);
-        Option spotify = new Option("Spotify", 5.5);
+        Option spotify = new Option("Spotify", 6.5);
 
         optionService.saveOption(multiSIM);
         optionService.saveOption(hotspot);

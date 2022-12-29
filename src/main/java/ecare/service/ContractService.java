@@ -1,6 +1,7 @@
 package ecare.service;
 
 import ecare.dto.ContractDto;
+import ecare.dto.TariffDto;
 import ecare.model.Contract;
 import ecare.model.Option;
 import ecare.model.Tariff;
@@ -22,6 +23,9 @@ public class ContractService {
     OptionService optionService;
 
     @Autowired
+    TariffService tariffService;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     public List<ContractDto> getAllContracts() {
@@ -31,6 +35,17 @@ public class ContractService {
 
     public Contract findById(Long contractId) {
         return contractRepository.findById(contractId).orElseThrow(() -> new EntityNotFoundException(contractId.toString()));
+    }
+
+    public Contract setTariffToContract(Contract contract, Long tariffId) throws Exception {
+        Tariff tariff = tariffService.getEntityById(tariffId);
+        contract.setTariff(tariff);
+        return contractRepository.save(contract);
+    }
+
+    public Contract createContract(ContractDto contract) {
+        Contract newContract = convertToEntity(contract);
+        return saveContract(newContract);
     }
 
     public Contract saveContract(Contract contract) {
@@ -47,7 +62,12 @@ public class ContractService {
 
     public ContractDto convertToDto(Contract contractEntity) {
         ContractDto contract = modelMapper.map(contractEntity, ContractDto.class);
-        contract.setTariffName(contractEntity.getTariff().getTariffName());
+        //  contract.setTariffName(contractEntity.getTariff().getTariffName());
+        return contract;
+    }
+
+    public Contract convertToEntity(ContractDto contractDto) {
+        Contract contract = modelMapper.map(contractDto, Contract.class);
         return contract;
     }
 }
