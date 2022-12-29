@@ -53,7 +53,7 @@ public class TariffService {
         tariffRepository.deleteById(id);
     }
 
-    private TariffDto convertToDto(Tariff tariffEntity) {
+    public TariffDto convertToDto(Tariff tariffEntity) {
         TariffDto tariff = modelMapper.map(tariffEntity, TariffDto.class);
         return tariff;
     }

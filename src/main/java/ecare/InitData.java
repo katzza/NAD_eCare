@@ -66,6 +66,9 @@ public class InitData implements CommandLineRunner {
         contract.getOptions().add(hotspot);
         contractService.saveContract(contract);
 
+        contractService.addOption(1L,1L);
+        contractService.saveContract(contract);
+
         System.out.println(tariffService.getAllTariffs().stream());
     }
 

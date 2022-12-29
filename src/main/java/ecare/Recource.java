@@ -2,7 +2,7 @@ package ecare;
 
 import ecare.dto.ContractDto;
 import ecare.dto.TariffDto;
-import ecare.model.Tariff;
+import ecare.model.Contract;
 import ecare.service.ContractService;
 import ecare.service.TariffService;
 import org.jboss.logging.Logger;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.NotFoundException;
 import java.util.List;
 
 import static org.jboss.logging.Logger.getLogger;
@@ -34,11 +33,11 @@ public class Recource {
         return tariffService.getAllTariffs();
     }
 
- /*   @PostMapping("/addoption")
-    public void addoption() {
+    @PostMapping("/addoption")
+    public Contract addoption(Long contractId, Long optionId) {
         LOGGER.info("Add option to contract");
-        return tariffService.addOption();
-    }*/
+        return contractService.addOption(contractId, optionId);
+    }
 
     @GetMapping("{id}")
     public TariffDto getById(@PathVariable("id") Long id) throws Exception {

@@ -1,6 +1,7 @@
 package ecare.dto;
 
 import java.util.List;
+import java.util.Objects;
 
 public class TariffDto {
 
@@ -31,5 +32,18 @@ public class TariffDto {
 
     public void setOptions(List<OptionDto> options) {
         this.options = options;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TariffDto tariffDto = (TariffDto) o;
+        return tariffPrice.equals(tariffDto.tariffPrice) && tariffName.equals(tariffDto.tariffName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tariffPrice, tariffName);
     }
 }
