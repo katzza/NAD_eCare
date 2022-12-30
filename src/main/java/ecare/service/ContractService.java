@@ -93,4 +93,9 @@ public class ContractService {
     public Contract convertToEntity(ContractDto contractDto) {
         return modelMapper.map(contractDto, Contract.class);
     }
+
+    public List<TariffDto> getPossibleTariffs(String contractId) {
+        int currentTariffGrade = findEntityByBusinessId(contractId).getTariff().getTariffGrade();
+        return tariffService.getPossibleTariffs(currentTariffGrade);
+    }
 }

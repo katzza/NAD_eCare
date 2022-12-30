@@ -35,9 +35,10 @@ public class InitData implements CommandLineRunner {
         optionService.saveOption(hotspot);
         optionService.saveOption(spotify);
 
-        Tariff tariffS = tariffService.saveTariff(new Tariff("Tariff S: 40 min 8Gb", 7.0));
-        Tariff tariffM = tariffService.saveTariff(new Tariff("Tariff M: 128 min 20Gb", 10.0));
-        Tariff tariffL = tariffService.saveTariff(new Tariff("Tariff L: 500 min 50 Gb", 15.0));
+        Tariff tariffS = tariffService.saveTariff(new Tariff("Tariff S: 40 min 8Gb", 7.0, 1));
+        Tariff tariffM = tariffService.saveTariff(new Tariff("Tariff M: 128 min 20Gb", 10.0, 2));
+        Tariff tariffL = tariffService.saveTariff(new Tariff("Tariff L: 500 min 50 Gb", 15.0, 3));
+        Tariff tariffXL = tariffService.saveTariff(new Tariff("Tariff XL: Unlimited", 20.0, 4));
 
         tariffL.getOptions().add(spotify);
       //  spotify.getTariffs().add(tariffL);

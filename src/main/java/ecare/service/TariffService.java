@@ -44,6 +44,12 @@ public class TariffService {
         return tariffRepository.save(tariff);
     }
 
+    public List<TariffDto> getPossibleTariffs(int currentTariffGrade) {
+        int previousTariffGrade = currentTariffGrade - 1;
+        List<Tariff> tariffEntities = tariffRepository.findPossibleTariffs(previousTariffGrade, currentTariffGrade);
+        return tariffEntities.stream().map(this::convertToDto).toList();
+    }
+
     public TariffDto convertToDto(Tariff tariffEntity) {
         return modelMapper.map(tariffEntity, TariffDto.class);
     }
@@ -51,5 +57,6 @@ public class TariffService {
     public Tariff convertToEntity(TariffDto tariffDto) {
         return modelMapper.map(tariffDto, Tariff.class);
     }
+
 
 }

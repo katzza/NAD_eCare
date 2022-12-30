@@ -6,16 +6,18 @@ import java.util.Objects;
 public class TariffDto {
 
     private Long tariffId;
-    private Double tariffPrice;
+    private double tariffPrice;
     private String tariffName;
+
+    private int tariffGrade;
 
     private List<OptionDto> options;
 
-    public Double getTariffPrice() {
+    public double getTariffPrice() {
         return tariffPrice;
     }
 
-    public void setTariffPrice(Double tariffPrice) {
+    public void setTariffPrice(double tariffPrice) {
         this.tariffPrice = tariffPrice;
     }
 
@@ -48,11 +50,19 @@ public class TariffDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TariffDto tariffDto = (TariffDto) o;
-        return tariffPrice.equals(tariffDto.tariffPrice) && tariffName.equals(tariffDto.tariffName);
+        return Double.compare(tariffDto.tariffPrice, tariffPrice) == 0 && tariffId.equals(tariffDto.tariffId) && tariffName.equals(tariffDto.tariffName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tariffPrice, tariffName);
+        return Objects.hash(tariffId, tariffPrice, tariffName);
+    }
+
+    public int getTariffGrade() {
+        return tariffGrade;
+    }
+
+    public void setTariffGrade(int tariffGrade) {
+        this.tariffGrade = tariffGrade;
     }
 }

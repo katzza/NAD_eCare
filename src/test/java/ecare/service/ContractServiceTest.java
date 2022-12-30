@@ -13,6 +13,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 
 @SpringBootTest
@@ -32,12 +33,12 @@ class ContractServiceTest {
     @Test
     void GetAllTariffs() {
         var allTariffs = tariffService.getAllTariffs();
-        Assertions.assertEquals(allTariffs.size(), 6);
+        Assertions.assertEquals(9, allTariffs.size());
     }
 
     @Test
-    void SaveAndGetTariffById() throws Exception {
-        Tariff newTariff = tariffService.saveTariff(new Tariff("newTariff", 5.));
+    void SaveAndGetTariffById() {
+        Tariff newTariff = tariffService.saveTariff(new Tariff("newTariff", 5., 1));
         TariffDto tariffById = tariffService.findById(newTariff.getTariffId());
         SoftAssertions sa = new SoftAssertions();
         sa.assertThat(tariffById.getTariffName()).isEqualTo("newTariff");
@@ -47,7 +48,7 @@ class ContractServiceTest {
     }
 
     @Test
-    void CreateContract() throws Exception {
+    void CreateContract() {
         TariffDto tariffDto = tariffService.findByTariffName("test-S");
         ContractDto newContract = new ContractDto();
         String businessId = "3245";
@@ -70,15 +71,15 @@ class ContractServiceTest {
         contractService.addOption(contractId, optionName);
 
         ContractDto contractById = contractService.findByBusinessId(contractId);
-        Assertions.assertEquals(contractById.getOptions().size(), 1);
+        Assertions.assertEquals(1, contractById.getOptions().size());
 
         contractService.addOption(contractId, optionName);
         contractById = contractService.findByBusinessId(contractId);
-        Assertions.assertEquals(contractById.getOptions().size(), 1);
+        Assertions.assertEquals(1, contractById.getOptions().size());
 
         contractService.addOption(contractId, new_optionName);
         contractById = contractService.findByBusinessId(contractId);
-        Assertions.assertEquals(contractById.getOptions().size(), 2);
+        Assertions.assertEquals(2, contractById.getOptions().size());
     }
 
     @Test
@@ -101,23 +102,34 @@ class ContractServiceTest {
     }
 
     @Test
+    void getPossibleTariffs() {
+        int currentTariffGrade = contractService.findByBusinessId("777").getTariff().getTariffGrade();
+        List<TariffDto> possibleTariffs = contractService.getPossibleTariffs("777");
+        List<Integer> possibleTariffGrades = possibleTariffs.stream().map(TariffDto::getTariffGrade).toList();
+        SoftAssertions sa = new SoftAssertions();
+        sa.assertThatCollection(possibleTariffGrades).doesNotContain(currentTariffGrade, currentTariffGrade);
+        sa.assertThatCollection(possibleTariffGrades).contains(currentTariffGrade + 1, currentTariffGrade + 2, currentTariffGrade - 1);
+        sa.assertAll();
+    }
+
+    @Test
     void notFoundExceptionTest() {
         String notExistingName = "notExist";
         try {
             optionService.findByOptionName(notExistingName);
-        } catch (EntityNotFoundException ex){
+        } catch (EntityNotFoundException ex) {
             Assertions.assertEquals(ex.getMessage(), notExistingName);
         }
 
         try {
             tariffService.findByTariffName(notExistingName);
-        } catch (EntityNotFoundException ex){
+        } catch (EntityNotFoundException ex) {
             Assertions.assertEquals(ex.getMessage(), notExistingName);
         }
 
         try {
             contractService.findByBusinessId(notExistingName);
-        } catch (EntityNotFoundException ex){
+        } catch (EntityNotFoundException ex) {
             Assertions.assertEquals(ex.getMessage(), notExistingName);
         }
     }

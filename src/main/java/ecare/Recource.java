@@ -33,6 +33,12 @@ public class Recource {
         return tariffService.getAllTariffs();
     }
 
+    @GetMapping("/possibletariffs")
+    public List<TariffDto> getPossibleTariffs(@RequestParam String contractId) {
+        LOGGER.info("GET tariffs possible for change ");
+        return contractService.getPossibleTariffs(contractId);
+    }
+
     @PostMapping("/addoption")
     @ResponseBody
     public Contract addoption(@RequestParam String contractId, @RequestParam String optionName) {

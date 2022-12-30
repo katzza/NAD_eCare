@@ -21,16 +21,21 @@ public class Tariff implements Serializable {
     @Column(name = "tariff_name", nullable = false, unique = true)
     private String tariffName;
 
-    @Column(name = "tariff_price")
-    private Double tariffPrice;
+    @Column(name = "tariff_price", nullable = false)
+    private double tariffPrice;
+
+    @Column(name = "tariff_grade", nullable = false)
+    private int tariffGrade;
 
     public Tariff() {
     }
 
     public Tariff(String name,
-                  Double tariffPrice) {
+                  double tariffPrice,
+                  int tariffGrade) {
         this.tariffName = name;
         this.tariffPrice = tariffPrice;
+        this.tariffGrade = tariffGrade;
     }
 
     public Long getTariffId() {
@@ -62,12 +67,12 @@ public class Tariff implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Tariff tariff = (Tariff) o;
-        return tariffId.equals(tariff.tariffId) && tariffName.equals(tariff.tariffName) && tariffPrice.equals(tariff.tariffPrice);
+        return Double.compare(tariff.tariffPrice, tariffPrice) == 0 && tariffGrade == tariff.tariffGrade && tariffId.equals(tariff.tariffId) && tariffName.equals(tariff.tariffName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tariffId, tariffName, tariffPrice);
+        return Objects.hash(tariffId, tariffName, tariffPrice, tariffGrade);
     }
 
     @ManyToMany(cascade = {
@@ -92,5 +97,12 @@ public class Tariff implements Serializable {
         this.options = options;
     }
 
+    public int getTariffGrade() {
+        return tariffGrade;
+    }
+
+    public void setTariffGrade(int tariffGrade) {
+        this.tariffGrade = tariffGrade;
+    }
 }
 
