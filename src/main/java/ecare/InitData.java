@@ -40,15 +40,19 @@ public class InitData implements CommandLineRunner {
         Tariff tariffL = tariffService.saveTariff(new Tariff("Tariff L: 500 min 50 Gb", 15.0));
 
         tariffL.getOptions().add(spotify);
-        spotify.getTariffs().add(tariffL);
+      //  spotify.getTariffs().add(tariffL);
         tariffService.saveTariff(tariffL);
 
         tariffL.getOptions().add(hotspot);
-        hotspot.getTariffs().add(tariffL);
+      //  hotspot.getTariffs().add(tariffL);
+        tariffService.saveTariff(tariffL);
+
+        tariffL.getOptions().add(multiSIM);
+     //   multiSIM.getTariffs().add(tariffL);
         tariffService.saveTariff(tariffL);
 
         tariffM.getOptions().add(spotify);
-        spotify.getTariffs().add(tariffM);
+     //   spotify.getTariffs().add(tariffM);
         tariffService.saveTariff(tariffM);
 
      /*   tariffL.addOption(spotify);
@@ -57,7 +61,7 @@ public class InitData implements CommandLineRunner {
         tariffService.saveTariff(tariffL);*/
 
 
-        Contract contract = new Contract(tariffS, "3127670");
+        Contract contract = new Contract(tariffL, "3127670");
         contractService.saveContract(contract);
 
       /*  contract.getOptions().add(spotify);

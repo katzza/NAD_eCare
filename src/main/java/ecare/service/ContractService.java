@@ -34,21 +34,26 @@ public class ContractService {
         return contractEntities.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
-    public ContractDto findById(Long contractId) {
-        Contract contractEntity = contractRepository.findById(contractId).orElseThrow(() -> new EntityNotFoundException(contractId.toString()));
-        return convertToDto(contractEntity);
+    public Contract findEntityByBusinessId(String contractBusinessId) {
+        return contractRepository.findByBusinessId(contractBusinessId).orElseThrow(() -> new EntityNotFoundException(contractBusinessId));
+    }
+
+    public ContractDto findByBusinessId(String contractBusinessId) {
+        Contract contract = contractRepository.findByBusinessId(contractBusinessId).orElseThrow(() -> new EntityNotFoundException(contractBusinessId));
+        return convertToDto(contract);
     }
 
     /**
-     * By tariff-change all options from the previos tariff will be deleted
+     * By tariff-change all options from the previous tariff will be deleted
+     *
      * @param contractId id of contract to be changed
-     * @param tariffId id of new tariff to the contract
+     * @param tariffName id of new tariff to the contract
      * @return updated contract with the new tariff
      * @throws Exception when entity not found
      */
-    public Contract setTariffToContract(Long contractId, Long tariffId) throws Exception {
-        Contract contract = contractRepository.findById(contractId).get();
-        Tariff tariff = tariffService.getEntityById(tariffId);
+    public Contract setTariffToContract(String contractId, String tariffName) throws Exception {
+        Contract contract = findEntityByBusinessId(contractId);
+        Tariff tariff = tariffService.getEntityByName(tariffName);
         contract.setTariff(tariff);
         contract.setOptions(new HashSet<>());
         return contractRepository.save(contract);
@@ -63,18 +68,18 @@ public class ContractService {
         return contractRepository.save(contract);
     }
 
-    public Contract addOption(Long contractId, Long optionId) {
+    public Contract addOption(String contractId, String optionName) {
         //todo not found + errors
-        Contract contract = contractRepository.findById(contractId).get();
-        Option option = optionService.findEntityById(optionId);
+        Contract contract = findEntityByBusinessId(contractId);
+        Option option = optionService.findEntityByOptionName(optionName);
         contract.getOptions().add(option);
         return contractRepository.save(contract);
     }
 
-    public Contract removeOption(Long contractId, Long optionId) {
+    public Contract removeOption(String contractId, String optionName) {
         //todo not found + errors
-        Contract contract = contractRepository.findById(contractId).get();
-        Option option = optionService.findEntityById(optionId);
+        Contract contract = findEntityByBusinessId(contractId);
+        Option option = optionService.findEntityByOptionName(optionName);
         contract.getOptions().remove(option);
         return contractRepository.save(contract);
     }

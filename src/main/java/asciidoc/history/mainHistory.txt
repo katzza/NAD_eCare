@@ -1,0 +1,12 @@
+1. add run tests before run
+edit configurations -> buld und run -> modify options -> add before launch task
+copy from configuration Maven [test]  (not mvn test)
+
+2. clear database before each test
+@Transactional
+
+3. Use businessID instead of DB technicalID
+
+4.
+
+

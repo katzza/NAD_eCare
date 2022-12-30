@@ -56,7 +56,7 @@ public class Option implements Serializable {
         this.optionPrice = optionPrice;
     }
 
-    @ManyToMany(mappedBy = "options")
+  /*  @ManyToMany(mappedBy = "options")
     private Set<Tariff> tariffs = new HashSet<>();
 
     public Set<Tariff> getTariffs() {
@@ -65,7 +65,7 @@ public class Option implements Serializable {
 
     public void setTariffs(Set<Tariff> tariffs) {
         this.tariffs = tariffs;
-    }
+    }*/
 
     @Override
     public boolean equals(Object o) {

@@ -27,9 +27,18 @@ public class OptionService {
         return convertToDto(option);
     }
 
-    public Option findEntityById(Long optionId) {
+    public OptionDto findByOptionId(Long optionId) {
         Option option = optionRepository.findById(optionId).orElseThrow(() -> new EntityNotFoundException(optionId.toString()));
-        return option;
+        return convertToDto(option);
+    }
+
+    public OptionDto findByOptionName(String optionName) {
+        Option option = optionRepository.findByOptionName(optionName).orElseThrow(() -> new EntityNotFoundException(optionName));
+        return convertToDto(option);
+    }
+
+    public Option findEntityByOptionName(String optionName) {
+        return optionRepository.findByOptionName(optionName).orElseThrow(() -> new EntityNotFoundException(optionName));
     }
 
   /*  public List<OptionDto> getOptionsByTariffId(String tariffId) {

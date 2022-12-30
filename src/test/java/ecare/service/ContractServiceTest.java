@@ -2,7 +2,6 @@ package ecare.service;
 
 import ecare.dto.ContractDto;
 import ecare.dto.TariffDto;
-import ecare.model.Contract;
 import ecare.model.Tariff;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Assertions;
@@ -12,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityNotFoundException;
 
 
 @SpringBootTest
@@ -47,55 +48,78 @@ class ContractServiceTest {
 
     @Test
     void CreateContract() throws Exception {
-        TariffDto tariffDto = tariffService.findById(12L);
+        TariffDto tariffDto = tariffService.findByTariffName("test-S");
         ContractDto newContract = new ContractDto();
-        newContract.setBusinessId("3245");
+        String businessId = "3245";
+        newContract.setBusinessId(businessId);
         newContract.setTariff(tariffDto);
-        Contract contract = contractService.createContract(newContract);
-        ContractDto contractById = contractService.findById(contract.getContractId());
+        contractService.createContract(newContract);
+        ContractDto contractById = contractService.findByBusinessId(businessId);
         SoftAssertions sa = new SoftAssertions();
-        sa.assertThat(contractById.getContractId()).isEqualTo(contract.getContractId());
-        sa.assertThat(contractById.getBusinessId()).isEqualTo(newContract.getBusinessId());
+        sa.assertThat(contractById.getBusinessId()).isEqualTo(businessId);
         sa.assertThat(contractById.getTariff().getTariffName()).isEqualTo(newContract.getTariff().getTariffName());
         sa.assertAll();
     }
 
     @Test
     void addOptionToContract() {
-        Long optionId = 22L;
-        Long contractId = 31L;
-        Long new_optionId = 23L;
+        String optionName = "Test-Hotspot Flat";
+        String contractId = "777";
+        String new_optionName = "Test-Spotify";
 
-        contractService.addOption(contractId, optionId);
+        contractService.addOption(contractId, optionName);
 
-        ContractDto contractById = contractService.findById(contractId);
+        ContractDto contractById = contractService.findByBusinessId(contractId);
         Assertions.assertEquals(contractById.getOptions().size(), 1);
 
-        contractService.addOption(contractId, optionId);
-        contractById = contractService.findById(contractId);
+        contractService.addOption(contractId, optionName);
+        contractById = contractService.findByBusinessId(contractId);
         Assertions.assertEquals(contractById.getOptions().size(), 1);
 
-        contractService.addOption(contractId, new_optionId);
-        contractById = contractService.findById(contractId);
+        contractService.addOption(contractId, new_optionName);
+        contractById = contractService.findByBusinessId(contractId);
         Assertions.assertEquals(contractById.getOptions().size(), 2);
     }
 
     @Test
     void changeTariffInContract() throws Exception {
-        Long contractId = 31L;
-        Long newTariffId = 11L;
-        ContractDto contractById = contractService.findById(contractId);
-        Long oldTariffId = contractById.getTariff().getTariffId();
+        String contractId = "777";
+        String newTariffName = "test-L";
+        ContractDto contractById = contractService.findByBusinessId(contractId);
+        String oldTariffName = contractById.getTariff().getTariffName();
 
-        contractService.setTariffToContract(contractId, newTariffId);
+        contractService.setTariffToContract(contractId, newTariffName);
 
-        contractById = contractService.findById(contractId);
+        contractById = contractService.findByBusinessId(contractId);
+        String currentTariffName = contractById.getTariff().getTariffName();
 
         SoftAssertions sa = new SoftAssertions();
         sa.assertThat(contractById.getOptions().size()).isEqualTo(0);
-        sa.assertThat(contractById.getTariff().getTariffId()).isNotEqualTo(oldTariffId);
-        sa.assertThat(contractById.getTariff().getTariffId()).isEqualTo(newTariffId);
+        sa.assertThat(currentTariffName).isNotEqualTo(oldTariffName);
+        sa.assertThat(currentTariffName).isEqualTo(newTariffName);
         sa.assertAll();
+    }
+
+    @Test
+    void notFoundExceptionTest() {
+        String notExistingName = "notExist";
+        try {
+            optionService.findByOptionName(notExistingName);
+        } catch (EntityNotFoundException ex){
+            Assertions.assertEquals(ex.getMessage(), notExistingName);
+        }
+
+        try {
+            tariffService.findByTariffName(notExistingName);
+        } catch (EntityNotFoundException ex){
+            Assertions.assertEquals(ex.getMessage(), notExistingName);
+        }
+
+        try {
+            contractService.findByBusinessId(notExistingName);
+        } catch (EntityNotFoundException ex){
+            Assertions.assertEquals(ex.getMessage(), notExistingName);
+        }
     }
 }
 

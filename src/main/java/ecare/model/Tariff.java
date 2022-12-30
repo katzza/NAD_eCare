@@ -72,7 +72,7 @@ public class Tariff implements Serializable {
 
     @ManyToMany(cascade = {
             CascadeType.PERSIST, CascadeType.MERGE
-    }, fetch = FetchType.EAGER)
+    }, fetch = FetchType.LAZY)
     @JoinTable(
             name = "tariff_option",
             joinColumns = {

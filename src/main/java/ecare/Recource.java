@@ -35,15 +35,15 @@ public class Recource {
 
     @PostMapping("/addoption")
     @ResponseBody
-    public Contract addoption(@RequestParam Long contractId, @RequestParam Long optionId) {
+    public Contract addoption(@RequestParam String contractId, @RequestParam String optionName) {
         LOGGER.info("Add option to contract");
-        return contractService.addOption(contractId, optionId);
+        return contractService.addOption(contractId, optionName);
     }
 
-    @GetMapping("{id}")
-    public TariffDto getById(@PathVariable("id") Long id) throws Exception {
-        LOGGER.info("GET tariff by id");
-        return tariffService.findById(id);
+    @GetMapping("/tariff/{tariffName}")
+    public TariffDto getTariffByName(@PathVariable("tariffName") String tariffName) throws Exception {
+        LOGGER.info("GET tariff by name");
+        return tariffService.findByTariffName(tariffName);
     }
 
     @GetMapping("/contracts")
