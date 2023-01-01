@@ -2,8 +2,6 @@ package ecare.dto;
 
 import org.springframework.http.HttpStatus;
 
-import javax.validation.constraints.NotNull;
-
 public class ApiError {
 
     private int statusCode;

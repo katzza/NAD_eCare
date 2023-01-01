@@ -1,6 +1,5 @@
 package ecare.service;
 
-import ecare.Recource;
 import ecare.dto.ApiError;
 import org.jboss.logging.Logger;
 import org.springframework.http.HttpStatus;
@@ -17,9 +16,9 @@ import static org.jboss.logging.Logger.getLogger;
 @RestControllerAdvice
 public class ErrorHandlingService {
 
-    private final String OBJECT_NOT_FOUND = "Object not found: ";
+    private static final String OBJECT_NOT_FOUND = "Object not found: ";
 
-    private final String VALIDATION_ERROR = "Validation error: ";
+    private static final String VALIDATION_ERROR = "Validation error: ";
 
     private static final Logger LOGGER = getLogger(ErrorHandlingService.class);
 
@@ -32,7 +31,7 @@ public class ErrorHandlingService {
         );
     }
 
-    @ExceptionHandler ({ConstraintViolationException.class, MethodArgumentNotValidException.class})
+    @ExceptionHandler({ConstraintViolationException.class, MethodArgumentNotValidException.class})
     public ResponseEntity<ApiError> validationExceptionHandler(Exception ex) {
         LOGGER.error(VALIDATION_ERROR + ex.getMessage());
         return new ResponseEntity<>(

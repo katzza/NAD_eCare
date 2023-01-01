@@ -1,6 +1,5 @@
 package ecare.repository;
 
-import ecare.model.Option;
 import ecare.model.Tariff;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

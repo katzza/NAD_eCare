@@ -11,12 +11,9 @@ class ApplicationTests {
 
 	@Autowired
 	private Recource controller;
-	@Test
-	void contextLoads() {
-	}
 
 	@Test
-	public void contextLoadsRecource() throws Exception {
+	void contextLoadsRecource() throws Exception {
 		assertThat(controller).isNotNull();
 	}
 

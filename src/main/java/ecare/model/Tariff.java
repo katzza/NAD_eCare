@@ -87,7 +87,7 @@ public class Tariff implements Serializable {
                     @JoinColumn(name = "option_id")
             }
     )
-    Set<Option> options = new HashSet<>();
+    private Set<Option> options = new HashSet<>();
 
     public Set<Option> getOptions() {
         return options;

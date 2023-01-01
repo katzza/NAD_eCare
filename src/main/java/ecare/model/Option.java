@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
@@ -55,17 +53,6 @@ public class Option implements Serializable {
     public void setOptionPrice(Double optionPrice) {
         this.optionPrice = optionPrice;
     }
-
-  /*  @ManyToMany(mappedBy = "options")
-    private Set<Tariff> tariffs = new HashSet<>();
-
-    public Set<Tariff> getTariffs() {
-        return tariffs;
-    }
-
-    public void setTariffs(Set<Tariff> tariffs) {
-        this.tariffs = tariffs;
-    }*/
 
     @Override
     public boolean equals(Object o) {
