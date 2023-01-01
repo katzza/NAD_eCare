@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ContractService {
@@ -31,15 +30,15 @@ public class ContractService {
 
     public List<ContractDto> getAllContracts() {
         List<Contract> contractEntities = contractRepository.findAll();
-        return contractEntities.stream().map(this::convertToDto).collect(Collectors.toList());
+        return contractEntities.stream().map(this::convertToDto).toList();
     }
 
     public Contract findEntityByBusinessId(String contractBusinessId) {
-        return contractRepository.findByBusinessId(contractBusinessId).orElseThrow(() -> new EntityNotFoundException(contractBusinessId));
+        return contractRepository.findByBusinessId(contractBusinessId).orElseThrow(() -> new EntityNotFoundException("Contract ID: " + contractBusinessId));
     }
 
     public ContractDto findByBusinessId(String contractBusinessId) {
-        Contract contract = contractRepository.findByBusinessId(contractBusinessId).orElseThrow(() -> new EntityNotFoundException(contractBusinessId));
+        Contract contract = findEntityByBusinessId(contractBusinessId);
         return convertToDto(contract);
     }
 
@@ -49,9 +48,8 @@ public class ContractService {
      * @param contractId id of contract to be changed
      * @param tariffName id of new tariff to the contract
      * @return updated contract with the new tariff
-     * @throws Exception when entity not found
      */
-    public Contract setTariffToContract(String contractId, String tariffName) throws Exception {
+    public Contract setTariffToContract(String contractId, String tariffName) {
         Contract contract = findEntityByBusinessId(contractId);
         Tariff tariff = tariffService.getEntityByName(tariffName);
         contract.setTariff(tariff);
@@ -69,7 +67,6 @@ public class ContractService {
     }
 
     public Contract addOption(String contractId, String optionName) {
-        //todo not found + errors
         Contract contract = findEntityByBusinessId(contractId);
         Option option = optionService.findEntityByOptionName(optionName);
         contract.getOptions().add(option);
@@ -77,7 +74,6 @@ public class ContractService {
     }
 
     public Contract removeOption(String contractId, String optionName) {
-        //todo not found + errors
         Contract contract = findEntityByBusinessId(contractId);
         Option option = optionService.findEntityByOptionName(optionName);
         contract.getOptions().remove(option);

@@ -118,19 +118,19 @@ class ContractServiceTest {
         try {
             optionService.findByOptionName(notExistingName);
         } catch (EntityNotFoundException ex) {
-            Assertions.assertEquals(ex.getMessage(), notExistingName);
+            Assertions.assertEquals(ex.getMessage(), "Option: "+notExistingName);
         }
 
         try {
             tariffService.findByTariffName(notExistingName);
         } catch (EntityNotFoundException ex) {
-            Assertions.assertEquals(ex.getMessage(), notExistingName);
+            Assertions.assertEquals(ex.getMessage(), "Tariff: "+notExistingName);
         }
 
         try {
             contractService.findByBusinessId(notExistingName);
         } catch (EntityNotFoundException ex) {
-            Assertions.assertEquals(ex.getMessage(), notExistingName);
+            Assertions.assertEquals(ex.getMessage(), "Contract ID: "+notExistingName);
         }
     }
 }

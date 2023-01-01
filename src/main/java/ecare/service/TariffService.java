@@ -27,7 +27,7 @@ public class TariffService {
     }
 
     public TariffDto findById(Long id) {
-        Tariff tariff = tariffRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id.toString()));
+        Tariff tariff = tariffRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Tariff ID: " + id.toString()));
         return convertToDto(tariff);
     }
 
@@ -37,7 +37,7 @@ public class TariffService {
     }
 
     public Tariff getEntityByName(String tariffName) {
-        return tariffRepository.findByTariffName(tariffName).orElseThrow(() -> new EntityNotFoundException(tariffName));
+        return tariffRepository.findByTariffName(tariffName).orElseThrow(() -> new EntityNotFoundException("Tariff: " + tariffName));
     }
 
     public Tariff saveTariff(Tariff tariff) {

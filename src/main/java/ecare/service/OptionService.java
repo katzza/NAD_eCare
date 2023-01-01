@@ -27,24 +27,14 @@ public class OptionService {
         return convertToDto(option);
     }
 
-    public OptionDto findByOptionId(Long optionId) {
-        Option option = optionRepository.findById(optionId).orElseThrow(() -> new EntityNotFoundException(optionId.toString()));
-        return convertToDto(option);
-    }
-
     public OptionDto findByOptionName(String optionName) {
-        Option option = optionRepository.findByOptionName(optionName).orElseThrow(() -> new EntityNotFoundException(optionName));
+        Option option = findEntityByOptionName(optionName);
         return convertToDto(option);
     }
 
     public Option findEntityByOptionName(String optionName) {
-        return optionRepository.findByOptionName(optionName).orElseThrow(() -> new EntityNotFoundException(optionName));
+        return optionRepository.findByOptionName(optionName).orElseThrow(() -> new EntityNotFoundException("Option: " + optionName));
     }
-
-  /*  public List<OptionDto> getOptionsByTariffId(String tariffId) {
-        List<Option> optionEntities = optionRepository.findByTariff(tariffId);
-        return optionEntities.stream().map(this::convertToDto).toList();
-    }*/
 
     private OptionDto convertToDto(Option optionEntity) {
         return modelMapper.map(optionEntity, OptionDto.class);

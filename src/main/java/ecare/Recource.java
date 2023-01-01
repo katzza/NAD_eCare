@@ -58,5 +58,4 @@ public class Recource {
         return contractService.getAllContracts();
     }
 
-
 }
