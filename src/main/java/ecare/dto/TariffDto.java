@@ -1,14 +1,25 @@
 package ecare.dto;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Objects;
 
 public class TariffDto {
 
+    @NotBlank
     private Long tariffId;
+    @NotBlank
+    @Min(1)
+    @Max(50)
     private double tariffPrice;
+    @NotBlank
     private String tariffName;
 
+    @NotBlank
+    @Min(0)
+    @Max(10)
     private int tariffGrade;
 
     private List<OptionDto> options;

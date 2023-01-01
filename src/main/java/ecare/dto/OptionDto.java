@@ -1,9 +1,13 @@
 package ecare.dto;
 
+import javax.validation.constraints.NotBlank;
+
 public class OptionDto {
 
+    @NotBlank
     private Long id;
 
+    @NotBlank
     private String optionName;
 
     private Double optionPrice;
