@@ -1,17 +1,26 @@
 package ecare.dto;
 
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.List;
+
 public class ContractDto {
 
-    private int contractId;
+    @NotBlank
+    private Long contractId;
+    @NotBlank
     private String businessId;
-    private String tariffName;
+    @NotNull
+    private TariffDto tariff;
 
-    public int getContractId() {
+    private List<OptionDto> options;
+
+    public Long getContractId() {
         return contractId;
     }
 
-    public void setContractId(int contractId) {
+    public void setContractId(Long contractId) {
         this.contractId = contractId;
     }
 
@@ -23,11 +32,21 @@ public class ContractDto {
         this.businessId = businessId;
     }
 
-    public String getTariffName() {
-        return tariffName;
+    public TariffDto getTariff() {
+        return tariff;
     }
 
-    public void setTariffName(String tariffName) {
-        this.tariffName = tariffName;
+    public void setTariff(TariffDto tariff) {
+        this.tariff = tariff;
     }
+
+    public List<OptionDto> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<OptionDto> options) {
+        this.options = options;
+    }
+
+
 }

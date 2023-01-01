@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @JsonSerialize
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -21,7 +23,7 @@ public class Contract {
     private String businessId;
 
 
-    @ManyToOne (fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tariff_id")
     private Tariff tariff;
 
@@ -35,6 +37,28 @@ public class Contract {
 
     public Long getContractId() {
         return contractId;
+    }
+
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST, CascadeType.MERGE
+    }, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "contract_options",
+            joinColumns = {
+                    @JoinColumn(name = "contract_id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "option_id")
+            }
+    )
+    Set<Option> options = new HashSet<>();
+
+    public Set<Option> getOptions() {
+        return options;
+    }
+
+    public void setOptions(Set<Option> options) {
+        this.options = options;
     }
 
     public void setContractId(Long contractId) {

@@ -3,14 +3,13 @@ package ecare.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import java.util.HashSet;
+import java.io.Serializable;
 import java.util.Objects;
-import java.util.Set;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "option")
-public class Option {
+public class Option implements Serializable {
 
     @Id
     @Column(name = "option_id")
@@ -55,29 +54,16 @@ public class Option {
         this.optionPrice = optionPrice;
     }
 
-
-    // @ManyToMany(mappedBy = "tariffOptions")
-    @OneToMany(mappedBy = "option")
-    private Set<TariffOption> tariffs = new HashSet<>();
-
-    public Set<TariffOption> getTariffs() {
-        return tariffs;
-    }
-
-    public void setTariffs(Set<TariffOption> tariffs) {
-        this.tariffs = tariffs;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Option option = (Option) o;
-        return optionId.equals(option.optionId) && optionName.equals(option.optionName) && optionPrice.equals(option.optionPrice) && Objects.equals(tariffs, option.tariffs);
+        return optionId.equals(option.optionId) && optionName.equals(option.optionName) && optionPrice.equals(option.optionPrice);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(optionId, optionName, optionPrice, tariffs);
+        return Objects.hash(optionId, optionName, optionPrice);
     }
 }

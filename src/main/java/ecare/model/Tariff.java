@@ -3,6 +3,7 @@ package ecare.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -10,7 +11,7 @@ import java.util.Set;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "tariff")
-public class Tariff {
+public class Tariff implements Serializable {
 
     @Id
     @Column(name = "tariff_id")
@@ -20,16 +21,21 @@ public class Tariff {
     @Column(name = "tariff_name", nullable = false, unique = true)
     private String tariffName;
 
-    @Column(name = "tariff_price")
-    private Double tariffPrice;
+    @Column(name = "tariff_price", nullable = false)
+    private double tariffPrice;
+
+    @Column(name = "tariff_grade", nullable = false)
+    private int tariffGrade;
 
     public Tariff() {
     }
 
     public Tariff(String name,
-                  Double tariffPrice) {
+                  double tariffPrice,
+                  int tariffGrade) {
         this.tariffName = name;
         this.tariffPrice = tariffPrice;
+        this.tariffGrade = tariffGrade;
     }
 
     public Long getTariffId() {
@@ -61,50 +67,42 @@ public class Tariff {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Tariff tariff = (Tariff) o;
-        return tariffId == tariff.tariffId && Objects.equals(tariffName, tariff.tariffName) && Objects.equals(tariffPrice, tariff.tariffPrice);
+        return Double.compare(tariff.tariffPrice, tariffPrice) == 0 && tariffGrade == tariff.tariffGrade && tariffId.equals(tariff.tariffId) && tariffName.equals(tariff.tariffName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tariffId, tariffName, tariffPrice);
+        return Objects.hash(tariffId, tariffName, tariffPrice, tariffGrade);
     }
 
-    //  @JsonIgnore
-    // @OneToMany(mappedBy = "tariff", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
-  /*  private List<Contract> contracts = new ArrayList<>();
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST, CascadeType.MERGE
+    }, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "tariff_option",
+            joinColumns = {
+                    @JoinColumn(name = "tariff_id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "option_id")
+            }
+    )
+    private Set<Option> options = new HashSet<>();
 
-    public List<Contract> getContracts() {
-        return contracts;
+    public Set<Option> getOptions() {
+        return options;
     }
 
-    public void setContracts(List<Contract> contracts) {
-        this.contracts = contracts;
-    }*/
-
-    /*   @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-       @JoinTable(
-               name = "tariff_options",
-               joinColumns = { @JoinColumn(name = "tariff_id") },
-               inverseJoinColumns = { @JoinColumn(name = "option_id") }
-       )*/
-    @OneToMany(mappedBy = "tariff")
-    private Set<TariffOption> tariffOptions = new HashSet<>();
-
-  /*  public void addOption(Option option) {
-        this.tariffOptions.add(option);
-        option.getTariffs().add(this);
+    public void setOptions(Set<Option> options) {
+        this.options = options;
     }
 
-    public void removeOption(Option option) {
-        this.tariffOptions.remove(option);
-        option.getTariffs().remove(this);
-    }*/
-
-    public Set<TariffOption> getTariffOptions() {
-        return tariffOptions;
+    public int getTariffGrade() {
+        return tariffGrade;
     }
 
-    public void setTariffOptions(Set<TariffOption> tariffOptions) {
-        this.tariffOptions = tariffOptions;
+    public void setTariffGrade(int tariffGrade) {
+        this.tariffGrade = tariffGrade;
     }
 }
+
