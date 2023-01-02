@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.HashSet;
 import java.util.List;
 
@@ -56,7 +55,11 @@ public class ContractService {
      */
     public Contract setTariffToContract(String contractId, String tariffName) throws ServiceException {
         Contract contract = findEntityByBusinessId(contractId);
-        Tariff tariff = tariffService.getEntityByName(tariffName);
+        int currentTariffGrade = contract.getTariff().getTariffGrade();
+        Tariff tariff = tariffService.findEntityByName(tariffName);
+        if (!tariffService.getPossibleTariffEntities(currentTariffGrade).contains(tariff)) {
+            throw new ServiceException("Bad request: This tariff is not possible for this contract, see contract change rules", HttpStatus.BAD_REQUEST);
+        }
         contract.setTariff(tariff);
         contract.setOptions(new HashSet<>());
         return contractRepository.save(contract);
@@ -71,7 +74,7 @@ public class ContractService {
         return contractRepository.save(contract);
     }
 
-    public Contract addOption(String contractId, String optionName) throws Exception {
+    public Contract addOption(String contractId, String optionName) throws ServiceException {
         Contract contract = findEntityByBusinessId(contractId);
         Option option = optionService.findEntityByOptionName(optionName);
         validatorService.validateCompatibility(contract, option);
@@ -87,7 +90,7 @@ public class ContractService {
         return contractRepository.save(contract);
     }
 
-    public List<TariffDto> getPossibleTariffs(String contractId) throws ServiceException {
+    public List<TariffDto> getTariffsToContract(String contractId) throws ServiceException {
         int currentTariffGrade = findEntityByBusinessId(contractId).getTariff().getTariffGrade();
         return tariffService.getPossibleTariffs(currentTariffGrade);
     }

@@ -33,11 +33,11 @@ public class TariffService {
     }
 
     public TariffDto findByTariffName(String tariffName) throws ServiceException {
-        var tariff = getEntityByName(tariffName);
+        var tariff = findEntityByName(tariffName);
         return convertToDto(tariff);
     }
 
-    public Tariff getEntityByName(String tariffName) throws ServiceException {
+    public Tariff findEntityByName(String tariffName) throws ServiceException {
         return tariffRepository.findByTariffName(tariffName).orElseThrow(() -> new ServiceException("Object not found: Tariff - " + tariffName, HttpStatus.NOT_FOUND));
     }
 
@@ -46,9 +46,13 @@ public class TariffService {
     }
 
     public List<TariffDto> getPossibleTariffs(int currentTariffGrade) {
-        int previousTariffGrade = currentTariffGrade - 1;
-        var tariffEntities = tariffRepository.findPossibleTariffs(previousTariffGrade, currentTariffGrade);
+        var tariffEntities = getPossibleTariffEntities(currentTariffGrade);
         return tariffEntities.stream().map(this::convertToDto).toList();
+    }
+
+    public List<Tariff> getPossibleTariffEntities(int currentTariffGrade) {
+        int previousTariffGrade = currentTariffGrade - 1;
+        return tariffRepository.findPossibleTariffs(previousTariffGrade, currentTariffGrade);
     }
 
     public TariffDto convertToDto(Tariff tariffEntity) {

@@ -2,7 +2,6 @@ package ecare.service;
 
 import ecare.dto.ContractDto;
 import ecare.dto.TariffDto;
-import ecare.model.Contract;
 import ecare.model.ServiceException;
 import ecare.model.Tariff;
 import org.assertj.core.api.SoftAssertions;
@@ -14,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 
@@ -111,7 +109,7 @@ class ContractServiceTest {
     }
 
     @Test
-    void changeTariffInContract() throws Exception {
+    void changeTariffInContractPositive() throws Exception {
         String contractId = "777";
         String newTariffName = "L";
         ContractDto contractById = contractService.findByBusinessId(contractId);
@@ -130,9 +128,20 @@ class ContractServiceTest {
     }
 
     @Test
+    void changeTariffInContractNegative() throws Exception {
+        String contractId = "777";
+        String newTariffName = "testXS";
+        try {
+            contractService.setTariffToContract(contractId, newTariffName);
+        } catch (ServiceException ex) {
+            Assertions.assertEquals("Bad request: This tariff is not possible for this contract, see contract change rules", ex.getMessage());
+        }
+    }
+
+    @Test
     void getPossibleTariffs() throws ServiceException {
         int currentTariffGrade = contractService.findByBusinessId("777").getTariff().getTariffGrade();
-        List<TariffDto> possibleTariffs = contractService.getPossibleTariffs("777");
+        List<TariffDto> possibleTariffs = contractService.getTariffsToContract("777");
         List<Integer> possibleTariffGrades = possibleTariffs.stream().map(TariffDto::getTariffGrade).toList();
         SoftAssertions sa = new SoftAssertions();
         sa.assertThatCollection(possibleTariffGrades).doesNotContain(currentTariffGrade, currentTariffGrade);
