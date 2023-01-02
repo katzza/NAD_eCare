@@ -2,6 +2,8 @@ package ecare.service;
 
 import ecare.dto.ContractDto;
 import ecare.dto.TariffDto;
+import ecare.model.Contract;
+import ecare.model.ServiceException;
 import ecare.model.Tariff;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Assertions;
@@ -37,19 +39,19 @@ class ContractServiceTest {
     }
 
     @Test
-    void SaveAndGetTariffById() {
-        Tariff newTariff = tariffService.saveTariff(new Tariff("newTariff", 5., 1));
+    void SaveAndGetTariffById() throws ServiceException {
+        Tariff newTariff = tariffService.saveTariff(new Tariff("new", "new Tariff", 5., 1));
         TariffDto tariffById = tariffService.findById(newTariff.getTariffId());
         SoftAssertions sa = new SoftAssertions();
-        sa.assertThat(tariffById.getTariffName()).isEqualTo("newTariff");
+        sa.assertThat(tariffById.getTariffName()).isEqualTo("new");
         sa.assertThat(tariffById.getTariffPrice()).isEqualTo(5.);
         sa.assertThat(tariffById.getOptions()).isEmpty();
         sa.assertAll();
     }
 
     @Test
-    void CreateContract() {
-        TariffDto tariffDto = tariffService.findByTariffName("test-S");
+    void CreateContract() throws ServiceException {
+        TariffDto tariffDto = tariffService.findByTariffName("testS");
         ContractDto newContract = new ContractDto();
         String businessId = "3245";
         newContract.setBusinessId(businessId);
@@ -63,10 +65,10 @@ class ContractServiceTest {
     }
 
     @Test
-    void addOptionToContract() {
-        String optionName = "Test-Hotspot Flat";
+    void addAndRemoveOptionToContractPositive() throws Exception {
+        String optionName = "TestMultiSIM";
         String contractId = "777";
-        String new_optionName = "Test-Spotify";
+        String new_optionName = "TestHotspotFlat";
 
         contractService.addOption(contractId, optionName);
 
@@ -80,12 +82,38 @@ class ContractServiceTest {
         contractService.addOption(contractId, new_optionName);
         contractById = contractService.findByBusinessId(contractId);
         Assertions.assertEquals(2, contractById.getOptions().size());
+
+        contractService.removeOption(contractId, new_optionName);
+        contractById = contractService.findByBusinessId(contractId);
+        Assertions.assertEquals(1, contractById.getOptions().size());
+    }
+
+    @Test
+    void addOptionToContractValidationError() {
+        String optionName = "Spotify";
+        String contractId = "777";
+        try {
+            contractService.addOption(contractId, optionName);
+        } catch (Exception ex) {
+            Assertions.assertEquals("Bad request: This option is not available in this tariff", ex.getMessage());
+        }
+    }
+
+    @Test
+    void removeOptionToContractNegative() {
+        String optionName = "Spotify";
+        String contractId = "777";
+        try {
+            contractService.removeOption(contractId, optionName);
+        } catch (Exception ex) {
+            Assertions.assertEquals("Bad request: the option is not in the contract and cannot be removed", ex.getMessage());
+        }
     }
 
     @Test
     void changeTariffInContract() throws Exception {
         String contractId = "777";
-        String newTariffName = "test-L";
+        String newTariffName = "L";
         ContractDto contractById = contractService.findByBusinessId(contractId);
         String oldTariffName = contractById.getTariff().getTariffName();
 
@@ -102,7 +130,7 @@ class ContractServiceTest {
     }
 
     @Test
-    void getPossibleTariffs() {
+    void getPossibleTariffs() throws ServiceException {
         int currentTariffGrade = contractService.findByBusinessId("777").getTariff().getTariffGrade();
         List<TariffDto> possibleTariffs = contractService.getPossibleTariffs("777");
         List<Integer> possibleTariffGrades = possibleTariffs.stream().map(TariffDto::getTariffGrade).toList();
@@ -113,25 +141,26 @@ class ContractServiceTest {
     }
 
     @Test
-    void notFoundExceptionTest() {
+    void notFoundExceptionTest() throws ServiceException {
         String notExistingName = "notExist";
         try {
             optionService.findByOptionName(notExistingName);
-        } catch (EntityNotFoundException ex) {
-            Assertions.assertEquals(ex.getMessage(), "Option: "+notExistingName);
+        } catch (ServiceException ex) {
+            Assertions.assertEquals(ex.getMessage(), "Object not found: Option ID - " + notExistingName);
         }
 
         try {
             tariffService.findByTariffName(notExistingName);
-        } catch (EntityNotFoundException ex) {
-            Assertions.assertEquals(ex.getMessage(), "Tariff: "+notExistingName);
+        } catch (ServiceException ex) {
+            Assertions.assertEquals(ex.getMessage(), "Object not found: Tariff - " + notExistingName);
         }
 
         try {
             contractService.findByBusinessId(notExistingName);
-        } catch (EntityNotFoundException ex) {
-            Assertions.assertEquals(ex.getMessage(), "Contract ID: "+notExistingName);
+        } catch (ServiceException ex) {
+            Assertions.assertEquals(ex.getMessage(), "Object not found: Contract ID- " + notExistingName);
         }
     }
+
 }
 

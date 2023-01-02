@@ -1,15 +1,16 @@
 package ecare.service;
 
 import ecare.dto.TariffDto;
+import ecare.model.ServiceException;
 import ecare.model.Tariff;
 
 import ecare.repository.TariffRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -22,22 +23,22 @@ public class TariffService {
     private ModelMapper modelMapper;
 
     public List<TariffDto> getAllTariffs() {
-        List<Tariff> tariffEntities = tariffRepository.findAll();
+        var tariffEntities = tariffRepository.findAll();
         return tariffEntities.stream().map(this::convertToDto).toList();
     }
 
-    public TariffDto findById(Long id) {
-        Tariff tariff = tariffRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Tariff ID: " + id.toString()));
+    public TariffDto findById(Long id) throws ServiceException {
+        var tariff = tariffRepository.findById(id).orElseThrow(() -> new ServiceException("Object not found: Tariff ID - " + id, HttpStatus.NOT_FOUND));
         return convertToDto(tariff);
     }
 
-    public TariffDto findByTariffName(String tariffName) {
-        Tariff tariff = getEntityByName(tariffName);
+    public TariffDto findByTariffName(String tariffName) throws ServiceException {
+        var tariff = getEntityByName(tariffName);
         return convertToDto(tariff);
     }
 
-    public Tariff getEntityByName(String tariffName) {
-        return tariffRepository.findByTariffName(tariffName).orElseThrow(() -> new EntityNotFoundException("Tariff: " + tariffName));
+    public Tariff getEntityByName(String tariffName) throws ServiceException {
+        return tariffRepository.findByTariffName(tariffName).orElseThrow(() -> new ServiceException("Object not found: Tariff - " + tariffName, HttpStatus.NOT_FOUND));
     }
 
     public Tariff saveTariff(Tariff tariff) {
@@ -46,7 +47,7 @@ public class TariffService {
 
     public List<TariffDto> getPossibleTariffs(int currentTariffGrade) {
         int previousTariffGrade = currentTariffGrade - 1;
-        List<Tariff> tariffEntities = tariffRepository.findPossibleTariffs(previousTariffGrade, currentTariffGrade);
+        var tariffEntities = tariffRepository.findPossibleTariffs(previousTariffGrade, currentTariffGrade);
         return tariffEntities.stream().map(this::convertToDto).toList();
     }
 

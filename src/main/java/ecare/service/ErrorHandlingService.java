@@ -1,6 +1,7 @@
 package ecare.service;
 
 import ecare.dto.ApiError;
+import ecare.model.ServiceException;
 import org.jboss.logging.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +9,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 
 import static org.jboss.logging.Logger.getLogger;
@@ -16,18 +16,16 @@ import static org.jboss.logging.Logger.getLogger;
 @RestControllerAdvice
 public class ErrorHandlingService {
 
-    private static final String OBJECT_NOT_FOUND = "Object not found: ";
-
     private static final String VALIDATION_ERROR = "Validation error: ";
 
     private static final Logger LOGGER = getLogger(ErrorHandlingService.class);
 
     @ExceptionHandler
-    public ResponseEntity<ApiError> noSuchElementExceptionHandler(EntityNotFoundException ex) {
-        LOGGER.error(OBJECT_NOT_FOUND + ex.getMessage());
+    public ResponseEntity<ApiError> serviceExceptionHandler(ServiceException ex) {
+        LOGGER.error(ex.getMessage());
         return new ResponseEntity<>(
-                new ApiError(HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND, OBJECT_NOT_FOUND + ex.getMessage()),
-                HttpStatus.NOT_FOUND
+                new ApiError(ex.getStatus().value(), ex.getStatus(), ex.getMessage()),
+                ex.getStatus()
         );
     }
 

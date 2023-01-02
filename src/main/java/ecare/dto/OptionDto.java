@@ -10,6 +10,9 @@ public class OptionDto {
     @NotBlank
     private String optionName;
 
+    @NotBlank
+    private String optionDescription;
+
     private Double optionPrice;
 
     public String getOptionName() {
@@ -34,5 +37,13 @@ public class OptionDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getOptionDescription() {
+        return optionDescription;
+    }
+
+    public void setOptionDescription(String optionDescription) {
+        this.optionDescription = optionDescription;
     }
 }

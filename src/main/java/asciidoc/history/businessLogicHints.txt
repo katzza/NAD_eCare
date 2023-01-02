@@ -1,3 +1,6 @@
 1. Use businessID instead of DB technicalID
 technicalID - Long
 business values - Strings or primitives
+
+2. Use custom Exceptions instead of standard
+EntityNotFoundException - extends RuntimeException - unchecked

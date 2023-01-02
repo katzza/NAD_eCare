@@ -18,6 +18,9 @@ public class TariffDto {
     private String tariffName;
 
     @NotBlank
+    private String tariffDescription;
+
+    @NotBlank
     @Min(0)
     @Max(10)
     private int tariffGrade;
@@ -75,5 +78,13 @@ public class TariffDto {
 
     public void setTariffGrade(int tariffGrade) {
         this.tariffGrade = tariffGrade;
+    }
+
+    public String getTariffDescription() {
+        return tariffDescription;
+    }
+
+    public void setTariffDescription(String tariffDescription) {
+        this.tariffDescription = tariffDescription;
     }
 }

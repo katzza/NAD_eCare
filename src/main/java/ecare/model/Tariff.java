@@ -21,6 +21,9 @@ public class Tariff implements Serializable {
     @Column(name = "tariff_name", nullable = false, unique = true)
     private String tariffName;
 
+    @Column(name = "tariff_description", nullable = false, unique = true)
+    private String tariffDescription;
+
     @Column(name = "tariff_price", nullable = false)
     private double tariffPrice;
 
@@ -30,10 +33,12 @@ public class Tariff implements Serializable {
     public Tariff() {
     }
 
-    public Tariff(String name,
+    public Tariff(String tariffName,
+                  String tariffDescription,
                   double tariffPrice,
                   int tariffGrade) {
-        this.tariffName = name;
+        this.tariffName = tariffName;
+        this.tariffDescription = tariffDescription;
         this.tariffPrice = tariffPrice;
         this.tariffGrade = tariffGrade;
     }
@@ -48,6 +53,14 @@ public class Tariff implements Serializable {
 
     public String getTariffName() {
         return tariffName;
+    }
+
+    public String getTariffDescription() {
+        return tariffDescription;
+    }
+
+    public void setTariffDescription(String tariffDescription) {
+        this.tariffDescription = tariffDescription;
     }
 
     public void setTariffName(String tariffName) {
@@ -67,12 +80,12 @@ public class Tariff implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Tariff tariff = (Tariff) o;
-        return Double.compare(tariff.tariffPrice, tariffPrice) == 0 && tariffGrade == tariff.tariffGrade && tariffId.equals(tariff.tariffId) && tariffName.equals(tariff.tariffName);
+        return Double.compare(tariff.tariffPrice, tariffPrice) == 0 && tariffGrade == tariff.tariffGrade && tariffId.equals(tariff.tariffId) && tariffName.equals(tariff.tariffName) && tariffDescription.equals(tariff.tariffDescription);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tariffId, tariffName, tariffPrice, tariffGrade);
+        return Objects.hash(tariffId, tariffName, tariffDescription, tariffPrice, tariffGrade);
     }
 
     @ManyToMany(cascade = {

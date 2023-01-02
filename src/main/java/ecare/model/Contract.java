@@ -23,7 +23,7 @@ public class Contract {
     private String businessId;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tariff_id")
     private Tariff tariff;
 
