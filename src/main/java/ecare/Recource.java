@@ -3,6 +3,7 @@ package ecare;
 import ecare.dto.ContractDto;
 import ecare.dto.TariffDto;
 import ecare.model.Contract;
+import ecare.model.ServiceException;
 import ecare.service.ContractService;
 import ecare.service.TariffService;
 import org.jboss.logging.Logger;
@@ -37,20 +38,27 @@ public class Recource {
     }
 
     @GetMapping("/possibletariffs")
-    public List<TariffDto> getPossibleTariffs(@RequestParam @NotBlank String contractId) {
+    public List<TariffDto> getPossibleTariffs(@RequestParam @NotBlank String contractId) throws ServiceException {
         LOGGER.info("GET tariffs possible for change ");
         return contractService.getPossibleTariffs(contractId);
     }
 
     @PostMapping("/addoption")
     @ResponseBody
-    public Contract addoption(@RequestParam @NotBlank String contractId, @RequestParam @NotBlank String optionName) {
+    public Contract addOption(@RequestParam @NotBlank String contractId, @RequestParam @NotBlank String optionName) throws Exception {
         LOGGER.info("Add option to contract");
         return contractService.addOption(contractId, optionName);
     }
 
+    @PostMapping("/removeoption")
+    @ResponseBody
+    public Contract removeOption(@RequestParam @NotBlank String contractId, @RequestParam @NotBlank String optionName) throws Exception {
+        LOGGER.info("Add option to contract");
+        return contractService.removeOption(contractId, optionName);
+    }
+
     @GetMapping("/tariff/{tariffName}")
-    public TariffDto getTariffByName(@PathVariable("tariffName") @NotBlank String tariffName) {
+    public TariffDto getTariffByName(@PathVariable("tariffName") @NotBlank String tariffName) throws ServiceException {
         LOGGER.info("GET tariff by name");
         return tariffService.findByTariffName(tariffName);
     }

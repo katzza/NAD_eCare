@@ -4,10 +4,12 @@ import ecare.dto.ContractDto;
 import ecare.dto.TariffDto;
 import ecare.model.Contract;
 import ecare.model.Option;
+import ecare.model.ServiceException;
 import ecare.model.Tariff;
 import ecare.repository.ContractRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -26,6 +28,9 @@ public class ContractService {
     TariffService tariffService;
 
     @Autowired
+    ValidatorService validatorService;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     public List<ContractDto> getAllContracts() {
@@ -33,11 +38,11 @@ public class ContractService {
         return contractEntities.stream().map(this::convertToDto).toList();
     }
 
-    public Contract findEntityByBusinessId(String contractBusinessId) {
-        return contractRepository.findByBusinessId(contractBusinessId).orElseThrow(() -> new EntityNotFoundException("Contract ID: " + contractBusinessId));
+    public Contract findEntityByBusinessId(String contractBusinessId) throws ServiceException {
+        return contractRepository.findByBusinessId(contractBusinessId).orElseThrow(() -> new ServiceException("Object not found: Contract ID- " + contractBusinessId, HttpStatus.NOT_FOUND));
     }
 
-    public ContractDto findByBusinessId(String contractBusinessId) {
+    public ContractDto findByBusinessId(String contractBusinessId) throws ServiceException {
         Contract contract = findEntityByBusinessId(contractBusinessId);
         return convertToDto(contract);
     }
@@ -49,7 +54,7 @@ public class ContractService {
      * @param tariffName id of new tariff to the contract
      * @return updated contract with the new tariff
      */
-    public Contract setTariffToContract(String contractId, String tariffName) {
+    public Contract setTariffToContract(String contractId, String tariffName) throws ServiceException {
         Contract contract = findEntityByBusinessId(contractId);
         Tariff tariff = tariffService.getEntityByName(tariffName);
         contract.setTariff(tariff);
@@ -66,32 +71,32 @@ public class ContractService {
         return contractRepository.save(contract);
     }
 
-    public Contract addOption(String contractId, String optionName) {
+    public Contract addOption(String contractId, String optionName) throws Exception {
         Contract contract = findEntityByBusinessId(contractId);
         Option option = optionService.findEntityByOptionName(optionName);
+        validatorService.validateCompatibility(contract, option);
         contract.getOptions().add(option);
         return contractRepository.save(contract);
     }
 
-    public Contract removeOption(String contractId, String optionName) {
+    public Contract removeOption(String contractId, String optionName) throws ServiceException {
         Contract contract = findEntityByBusinessId(contractId);
         Option option = optionService.findEntityByOptionName(optionName);
+        validatorService.validateRemovability(contract, option);
         contract.getOptions().remove(option);
         return contractRepository.save(contract);
     }
 
+    public List<TariffDto> getPossibleTariffs(String contractId) throws ServiceException {
+        int currentTariffGrade = findEntityByBusinessId(contractId).getTariff().getTariffGrade();
+        return tariffService.getPossibleTariffs(currentTariffGrade);
+    }
+
     public ContractDto convertToDto(Contract contractEntity) {
-        ContractDto contract = modelMapper.map(contractEntity, ContractDto.class);
-        contract.setTariff(modelMapper.map(contractEntity.getTariff(), TariffDto.class));
-        return contract;
+        return modelMapper.map(contractEntity, ContractDto.class);
     }
 
     public Contract convertToEntity(ContractDto contractDto) {
         return modelMapper.map(contractDto, Contract.class);
-    }
-
-    public List<TariffDto> getPossibleTariffs(String contractId) {
-        int currentTariffGrade = findEntityByBusinessId(contractId).getTariff().getTariffGrade();
-        return tariffService.getPossibleTariffs(currentTariffGrade);
     }
 }
