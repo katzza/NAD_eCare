@@ -7,6 +7,7 @@ import ecare.model.Option;
 import ecare.model.ServiceException;
 import ecare.model.Tariff;
 import ecare.repository.ContractRepository;
+import org.jboss.logging.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+
+import static org.jboss.logging.Logger.getLogger;
 
 @Service
 public class ContractService {
@@ -31,6 +34,8 @@ public class ContractService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    private static final Logger LOGGER = getLogger(ContractService.class);
 
     public List<ContractDto> getAllContracts() {
         List<Contract> contractEntities = contractRepository.findAll();
@@ -56,12 +61,14 @@ public class ContractService {
     public Contract setTariffToContract(String contractId, String tariffName) throws ServiceException {
         Contract contract = findEntityByBusinessId(contractId);
         int currentTariffGrade = contract.getTariff().getTariffGrade();
+        LOGGER.infof("Current tariffGrade is %s", currentTariffGrade);
         Tariff tariff = tariffService.findEntityByName(tariffName);
         if (!tariffService.getPossibleTariffEntities(currentTariffGrade).contains(tariff)) {
             throw new ServiceException("Bad request: This tariff is not possible for this contract, see contract change rules", HttpStatus.BAD_REQUEST);
         }
         contract.setTariff(tariff);
         contract.setOptions(new HashSet<>());
+        LOGGER.info("Tariff will we changed, options removed");
         return contractRepository.save(contract);
     }
 
@@ -79,6 +86,7 @@ public class ContractService {
         Option option = optionService.findEntityByOptionName(optionName);
         validatorService.validateCompatibility(contract, option);
         contract.getOptions().add(option);
+        LOGGER.info("Option will be added");
         return contractRepository.save(contract);
     }
 
@@ -87,6 +95,7 @@ public class ContractService {
         Option option = optionService.findEntityByOptionName(optionName);
         validatorService.validateRemovability(contract, option);
         contract.getOptions().remove(option);
+        LOGGER.info("Option will be removed");
         return contractRepository.save(contract);
     }
 
