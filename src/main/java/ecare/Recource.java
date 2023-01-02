@@ -43,21 +43,21 @@ public class Recource {
         return contractService.getTariffsToContract(contractId);
     }
 
-    @PostMapping("/changetariff")
+    @PutMapping("/changetariff")
     @ResponseBody
     public Contract changeTariff(@RequestParam @NotBlank String contractId, @RequestParam @NotBlank String newTariffName) throws ServiceException {
         LOGGER.info("Select new tariff to contract");
         return contractService.setTariffToContract(contractId, newTariffName);
     }
 
-    @PostMapping("/addoption")
+    @PutMapping("/addoption")
     @ResponseBody
     public Contract addOption(@RequestParam @NotBlank String contractId, @RequestParam @NotBlank String optionName) throws ServiceException {
         LOGGER.info("Add option to contract");
         return contractService.addOption(contractId, optionName);
     }
 
-    @PostMapping("/removeoption")
+    @PutMapping("/removeoption")
     @ResponseBody
     public Contract removeOption(@RequestParam @NotBlank String contractId, @RequestParam @NotBlank String optionName) throws ServiceException {
         LOGGER.info("Add option to contract");
