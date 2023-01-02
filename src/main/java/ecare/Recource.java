@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 import static org.jboss.logging.Logger.getLogger;
@@ -43,23 +44,23 @@ public class Recource {
         return contractService.getTariffsToContract(contractId);
     }
 
-    @PutMapping("/changetariff")
+    @PutMapping("/changetariff/{contractId}")
     @ResponseBody
-    public Contract changeTariff(@RequestParam @NotBlank String contractId, @RequestParam @NotBlank String newTariffName) throws ServiceException {
+    public Contract changeTariff(@PathVariable @NotBlank String contractId, @RequestBody @NotBlank String newTariffName) throws ServiceException {
         LOGGER.info("Select new tariff to contract");
         return contractService.setTariffToContract(contractId, newTariffName);
     }
 
-    @PutMapping("/addoption")
+    @PutMapping("/addoption/{contractId}")
     @ResponseBody
-    public Contract addOption(@RequestParam @NotBlank String contractId, @RequestParam @NotBlank String optionName) throws ServiceException {
+    public Contract addOption(@PathVariable @NotBlank String contractId, @RequestParam @NotBlank String optionName) throws ServiceException {
         LOGGER.info("Add option to contract");
         return contractService.addOption(contractId, optionName);
     }
 
-    @PutMapping("/removeoption")
+    @PutMapping("/removeoption/{contractId}")
     @ResponseBody
-    public Contract removeOption(@RequestParam @NotBlank String contractId, @RequestParam @NotBlank String optionName) throws ServiceException {
+    public Contract removeOption(@PathVariable @NotBlank String contractId, @PathParam ("optionName") String optionName) throws ServiceException {
         LOGGER.info("Add option to contract");
         return contractService.removeOption(contractId, optionName);
     }
