@@ -9,6 +9,9 @@ copy from configuration Maven [test]  (not mvn test)
 SELECT t FROM Tariff t WHERE t.tariffGrade = ?1
 https://stackabuse.com/spring-data-jpa-guide-to-the-query-annotation/
 
-4.
+4. h2 How to fix H2 error: "Syntax error in SQL statement ... expected identifier"
+https://blog.dkwr.de/development/fix-h2-error-expected-identifeir/
+Checking the docs we see that in SQL/H2 User is a reserved keyword.
+
 
 

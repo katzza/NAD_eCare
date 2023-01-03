@@ -29,12 +29,30 @@ public class ErrorHandlingService {
         );
     }
 
-    @ExceptionHandler({ConstraintViolationException.class, MethodArgumentNotValidException.class})
+    @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ApiError> validationExceptionHandler(Exception ex) {
         LOGGER.error(VALIDATION_ERROR + ex.getMessage());
         return new ResponseEntity<>(
                 new ApiError(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST, VALIDATION_ERROR + ex.getMessage()),
-                HttpStatus.NOT_FOUND
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiError> userValidationExceptionHandler(Exception ex) {
+        LOGGER.error(VALIDATION_ERROR + ex.getMessage());
+        return new ResponseEntity<>(
+                new ApiError(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST, "Validation error"),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiError> restExceptionHandler(Exception ex) {
+        LOGGER.error(VALIDATION_ERROR + ex.getMessage());
+        return new ResponseEntity<>(
+                new ApiError(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST, "Unexpected error, ask support"),
+                HttpStatus.BAD_REQUEST
         );
     }
 }

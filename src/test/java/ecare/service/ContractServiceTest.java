@@ -18,7 +18,7 @@ import java.util.List;
 
 @SpringBootTest
 @Sql("classpath:test-data.sql")
-@Transactional  //clear DB after test
+@Transactional
 @AutoConfigureTestDatabase
 class ContractServiceTest {
     @Autowired
@@ -155,7 +155,7 @@ class ContractServiceTest {
         try {
             optionService.findByOptionName(notExistingName);
         } catch (ServiceException ex) {
-            Assertions.assertEquals(ex.getMessage(), "Object not found: Option ID - " + notExistingName);
+            Assertions.assertEquals(ex.getMessage(), "Object not found: Option name - " + notExistingName);
         }
 
         try {

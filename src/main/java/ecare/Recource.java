@@ -2,16 +2,20 @@ package ecare;
 
 import ecare.dto.ContractDto;
 import ecare.dto.TariffDto;
+import ecare.dto.UserDto;
 import ecare.model.Contract;
 import ecare.model.ServiceException;
 import ecare.service.ContractService;
 import ecare.service.TariffService;
+import ecare.service.UserService;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
@@ -28,6 +32,9 @@ public class Recource {
 
     @Autowired
     ContractService contractService;
+
+    @Autowired
+    UserService userService;
 
     private static final Logger LOGGER = getLogger(Recource.class);
 
@@ -76,4 +83,13 @@ public class Recource {
         return contractService.getAllContracts();
     }
 
+
+    @PostMapping("/newuser")
+    public UserDto newUser(@Valid @RequestBody UserDto userDto) throws ServiceException {
+        LOGGER.info("Create new user");
+        if (userDto == null) {
+            throw new ServiceException("User is not present", HttpStatus.BAD_REQUEST);
+        }
+        return userService.createUser(userDto);
+    }
 }

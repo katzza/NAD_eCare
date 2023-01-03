@@ -33,7 +33,7 @@ public class OptionService {
     }
 
     public Option findEntityByOptionName(String optionName) throws ServiceException {
-        return optionRepository.findByOptionName(optionName).orElseThrow(() -> new ServiceException("Object not found: Option ID - " + optionName, HttpStatus.NOT_FOUND));
+        return optionRepository.findByOptionName(optionName).orElseThrow(() -> new ServiceException("Object not found: Option name - " + optionName, HttpStatus.NOT_FOUND));
     }
 
     private OptionDto convertToDto(Option optionEntity) {
