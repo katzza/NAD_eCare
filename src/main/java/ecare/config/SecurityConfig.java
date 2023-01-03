@@ -2,6 +2,7 @@ package ecare.config;
 
 import ecare.handler.CustomAuthenticationFailureHandler;
 import ecare.handler.CustomAuthenticationSuccessHandler;
+import ecare.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +23,7 @@ import javax.ws.rs.HttpMethod;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UserService userDetailsService;
 
     @Autowired
     private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
