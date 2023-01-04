@@ -1,9 +1,11 @@
 package ecare;
 
 import ecare.model.*;
+import ecare.repository.RoleRepository;
 import ecare.service.ContractService;
 import ecare.service.OptionService;
 import ecare.service.TariffService;
+import ecare.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -22,18 +24,28 @@ public class InitData implements CommandLineRunner {
     @Autowired
     ContractService contractService;
 
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    RoleRepository roleRepository;
+
     @Override
     public void run(String... args) throws Exception {
 
         Role roleUser = new Role();
         roleUser.setName("ROLE_USER");
         roleUser.setStatus(Status.ACTIVE);
+        roleRepository.save(roleUser);
 
         User user = new User();
         user.setStatus(Status.ACTIVE);
         user.getRoles().add(roleUser);
         user.setEmail("test@aa.aa");
-        user.setPassword("$2a$04$6S8VfBgJdsi5eGEkx1KQmeFsVEqdBA4mQWJjljelT0sQ9I4361FoK");
+        user.setUsername("test@aa.aa");
+        user.setPassword("test");
+        userService.register(user);
+
 
 
         Option multiSIM = new Option("MultiSIM", "MultiSIM", 5.5);

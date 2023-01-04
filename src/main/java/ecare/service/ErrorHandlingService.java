@@ -5,6 +5,7 @@ import ecare.model.ServiceException;
 import org.jboss.logging.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -37,4 +38,14 @@ public class ErrorHandlingService {
                 HttpStatus.NOT_FOUND
         );
     }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ApiError> badCredentialsExceptionHandler(Exception ex) {
+        LOGGER.error(VALIDATION_ERROR + ex.getMessage());
+        return new ResponseEntity<>(
+                new ApiError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED, ex.getMessage()),
+                HttpStatus.UNAUTHORIZED
+        );
+    }
+
 }

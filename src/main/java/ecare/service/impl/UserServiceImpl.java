@@ -8,6 +8,7 @@ import ecare.repository.UserRepository;
 import ecare.service.UserService;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, @Lazy BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
@@ -39,12 +40,13 @@ public class UserServiceImpl implements UserService {
         userRoles.add(roleUser);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        LOGGER.info(user.getPassword());
         user.setRoles(userRoles);
         user.setStatus(Status.ACTIVE);
 
         User registredUser = userRepository.save(user);
 
-        LOGGER.infof("user {} created", registredUser);
+        LOGGER.infof("user %s created", registredUser);
         return registredUser;
     }
 
