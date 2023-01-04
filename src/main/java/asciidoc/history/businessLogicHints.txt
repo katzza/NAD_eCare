@@ -6,3 +6,4 @@ business values - Strings or primitives
 EntityNotFoundException - extends RuntimeException - unchecked
 
 3. Get = read, Post = insert, Put = update all fields, Patch = update one field, Delete = delete
+

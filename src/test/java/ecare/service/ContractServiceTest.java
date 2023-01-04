@@ -18,7 +18,7 @@ import java.util.List;
 
 @SpringBootTest
 @Sql("classpath:test-data.sql")
-@Transactional  //clear DB after test
+@Transactional
 @AutoConfigureTestDatabase
 class ContractServiceTest {
     @Autowired

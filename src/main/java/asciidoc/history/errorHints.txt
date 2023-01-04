@@ -13,5 +13,7 @@ https://stackabuse.com/spring-data-jpa-guide-to-the-query-annotation/
 https://blog.dkwr.de/development/fix-h2-error-expected-identifeir/
 Checking the docs we see that in SQL/H2 User is a reserved keyword.
 
+5. Many to many 15-17 min
+https://www.youtube.com/watch?v=yRnSUDx3Y8k&t=8s
 
 

@@ -1,4 +1,4 @@
-package ecare;
+package ecare.rest;
 
 import ecare.dto.ContractDto;
 import ecare.dto.TariffDto;

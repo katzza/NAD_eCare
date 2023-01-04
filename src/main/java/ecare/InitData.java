@@ -1,8 +1,6 @@
 package ecare;
 
-import ecare.model.Contract;
-import ecare.model.Option;
-import ecare.model.Tariff;
+import ecare.model.*;
 import ecare.service.ContractService;
 import ecare.service.OptionService;
 import ecare.service.TariffService;
@@ -26,6 +24,17 @@ public class InitData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
+        Role roleUser = new Role();
+        roleUser.setName("ROLE_USER");
+        roleUser.setStatus(Status.ACTIVE);
+
+        User user = new User();
+        user.setStatus(Status.ACTIVE);
+        user.getRoles().add(roleUser);
+        user.setEmail("test@aa.aa");
+        user.setPassword("$2a$04$6S8VfBgJdsi5eGEkx1KQmeFsVEqdBA4mQWJjljelT0sQ9I4361FoK");
+
 
         Option multiSIM = new Option("MultiSIM", "MultiSIM", 5.5);
         Option hotspot = new Option("HotspotFlat", "Hotspot Flat", 9.0);
