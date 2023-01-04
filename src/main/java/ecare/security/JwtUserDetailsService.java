@@ -16,8 +16,13 @@ import static org.jboss.logging.Logger.getLogger;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public JwtUserDetailsService(UserService userService) {
+        this.userService = userService;
+    }
+
     private static final Logger LOGGER = getLogger(ContractService.class);
 
     @Override

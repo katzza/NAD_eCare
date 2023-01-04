@@ -3,6 +3,7 @@ package ecare.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -25,7 +26,7 @@ public class User extends BaseEntity {
     @JoinTable(name = "user_roles",    //промежут таблицы
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")}, // user_roles колонка user_id ссылается на id в табл users
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
 
 }

@@ -5,7 +5,6 @@ import ecare.model.Status;
 import ecare.model.User;
 import ecare.repository.RoleRepository;
 import ecare.repository.UserRepository;
-import ecare.service.ContractService;
 import ecare.service.UserService;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +19,18 @@ import static org.jboss.logging.Logger.getLogger;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    private static final Logger LOGGER = getLogger(ContractService.class);
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    private static final Logger LOGGER = getLogger(UserServiceImpl.class);
 
     @Override
     public User register(User user) {

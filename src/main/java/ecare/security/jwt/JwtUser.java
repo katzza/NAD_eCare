@@ -1,6 +1,5 @@
 package ecare.security.jwt;
 
-import ecare.model.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
