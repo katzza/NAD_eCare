@@ -1,5 +1,6 @@
 package ecare.rest;
 
+
 import ecare.dto.UserDto;
 import ecare.model.User;
 import ecare.security.jwt.JwtTokenProvider;
@@ -40,7 +41,7 @@ public class AuthenticationRestControllerV1 {
     @PostMapping("login")
     public ResponseEntity login(@RequestBody UserDto userDto) {
         try {
-            String username = userDto.getLogin();
+            String username = userDto.getUsername();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, userDto.getPassword()));
             User user = userService.findByUserName(username);
             if (user == null) {

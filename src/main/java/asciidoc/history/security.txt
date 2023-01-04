@@ -1,1 +1,2 @@
 https://bcrypt-generator.com/
+https://www.javainuse.com/jwtgenerator

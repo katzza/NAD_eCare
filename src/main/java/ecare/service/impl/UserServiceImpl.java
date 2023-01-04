@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,7 +37,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User register(User user) {
         Role roleUser = roleRepository.findByName(("ROLE_USER"));
-        Set<Role> userRoles = new HashSet<>();
+        List<Role> userRoles = new ArrayList<>();
         userRoles.add(roleUser);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));

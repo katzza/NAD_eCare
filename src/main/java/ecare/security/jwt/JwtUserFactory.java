@@ -6,7 +6,9 @@ import ecare.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,17 +20,19 @@ public final class JwtUserFactory {
         return new JwtUser(
                 user.getId(),
                 user.getUsername(),
+                "name1",
+                "name2",
                 user.getEmail(),
                 user.getPassword(),
+                mapToGrantedAuthorities(new ArrayList<>(user.getRoles())),
                 user.getStatus().equals(Status.ACTIVE),
-                user.getUpdated(),
-                mapToGrantedAuthorities(new HashSet<>(user.getRoles()))
+                user.getUpdated()
         );
     }
 
-    private static Set<GrantedAuthority> mapToGrantedAuthorities(Set<Role> userRoles) {
+    private static List<GrantedAuthority> mapToGrantedAuthorities(List<Role> userRoles) {
         return userRoles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toSet());
+                .map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 
 
