@@ -20,4 +20,7 @@ https://www.youtube.com/watch?v=yRnSUDx3Y8k&t=8s
 spring.jpa.defer-datasource-initialization=true
 + filename = data.sql
 
+7. Хотя 2 разные базы для теста и run всё равно тестовые данные из main/resources/data.sql лезут в тест
+spring.datasource.initialize=false - так не лезут
+
 

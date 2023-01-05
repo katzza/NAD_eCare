@@ -18,7 +18,6 @@ import javax.validation.ConstraintViolationException;
 @SpringBootTest
 @Sql("classpath:test-data.sql")
 @Transactional
-@AutoConfigureTestDatabase
 class UserTest {
 
 

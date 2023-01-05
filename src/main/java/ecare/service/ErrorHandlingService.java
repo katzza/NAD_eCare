@@ -2,6 +2,7 @@ package ecare.service;
 
 import ecare.dto.ApiError;
 import ecare.model.ServiceException;
+import ecare.security.jwt.JwtAuthenticationException;
 import org.jboss.logging.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,8 +52,8 @@ public class ErrorHandlingService {
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<ApiError> badCredentialsExceptionHandler(Exception ex) {
-        LOGGER.error(VALIDATION_ERROR + ex.getMessage());
+    public ResponseEntity<ApiError> badCredentialsExceptionHandler(AuthenticationException ex) {
+        LOGGER.error(ex.getMessage());
         return new ResponseEntity<>(
                 new ApiError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED, ex.getMessage()),
                 HttpStatus.UNAUTHORIZED

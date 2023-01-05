@@ -1,5 +1,8 @@
-https://bcrypt-generator.com/
+1. https://bcrypt-generator.com/
 Пароль не шифруется, а хешируются, поэтому разные значения при bcrypt одного и того же
 https://www.javainuse.com/jwtgenerator
 
-Postman: authorisation + Bearer Token (в токене указать только токен, Bearer Postman добавит сам)
+2. Postman: authorization + Bearer Token (в токене указать только токен, Bearer Postman добавит сам)
+
+3. SecurityConfig configure: на примере настроек csrf: если указать сверху disabled, а снизу .and().csrf().ignoringAntMatchers(H2_ENDPOINT)
+то сработает нижний (disabled не будет учитываться)

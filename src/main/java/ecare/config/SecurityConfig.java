@@ -41,7 +41,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider))
-                .and().csrf().ignoringAntMatchers(H2_ENDPOINT)
                 .and().headers().frameOptions().sameOrigin();
     }
 }
