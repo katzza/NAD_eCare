@@ -12,14 +12,17 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
+@Validated
 @RestController
 @RequestMapping(value = "ecare/v1/auth")
 public class AuthenticationRestControllerV1 {
@@ -39,7 +42,7 @@ public class AuthenticationRestControllerV1 {
     }
 
     @PostMapping("login")
-    public ResponseEntity login(@RequestBody UserDto userDto) {
+    public ResponseEntity login(@RequestBody @Valid UserDto userDto) {
         try {
             String username = userDto.getUsername();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, userDto.getPassword()));

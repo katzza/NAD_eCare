@@ -8,11 +8,11 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class UserDto {
 
-    // @NotBlank(message = "Login should be not null and not blank")
-    // @Email(message = "Login should be email")
+    @NotBlank(message = "Login should be not null and not blank")
+    @Email(message = "Login should be email")
     private String username;
 
-    //  @NotBlank(message = "Password should be not null and not blank")
+    @NotBlank(message = "Password should be not null and not blank")
     private String password;
 
 }

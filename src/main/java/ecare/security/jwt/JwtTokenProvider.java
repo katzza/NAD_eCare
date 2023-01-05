@@ -55,11 +55,11 @@ public class JwtTokenProvider {
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
 
-        return Jwts.builder()//
-                .setClaims(claims)//
-                .setIssuedAt(now)//
-                .setExpiration(validity)//
-                .signWith(SignatureAlgorithm.HS256, secret)//
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(validity)
+                .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
     }
 
@@ -75,7 +75,7 @@ public class JwtTokenProvider {
     public String resolveToken(HttpServletRequest req) {
         String bearerToken = req.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7, bearerToken.length());
+            return bearerToken.substring(7);
         }
         return null;
     }
@@ -97,9 +97,9 @@ public class JwtTokenProvider {
     private List<String> getRoleNames(List<Role> userRoles) {
         List<String> result = new ArrayList<>();
 
-        userRoles.forEach(role -> {
-            result.add(role.getName());
-        });
+        userRoles.forEach(role ->
+                result.add(role.getName())
+        );
 
         return result;
     }
