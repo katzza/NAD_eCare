@@ -1,12 +1,14 @@
 package ecare.security.jwt;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Date;
 
+@ToString
 public class JwtUser implements UserDetails {
 
     private final Long id;

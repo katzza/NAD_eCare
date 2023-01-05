@@ -38,6 +38,11 @@ public class InitData implements CommandLineRunner {
         roleUser.setStatus(Status.ACTIVE);
         roleRepository.save(roleUser);
 
+        Role roleAdmin = new Role();
+        roleAdmin.setName("ROLE_ADMIN");
+        roleAdmin.setStatus(Status.ACTIVE);
+        roleRepository.save(roleAdmin);
+
         User user = new User();
         user.setStatus(Status.ACTIVE);
         user.getRoles().add(roleUser);
@@ -46,7 +51,13 @@ public class InitData implements CommandLineRunner {
         user.setPassword("test");
         userService.register(user);
 
-
+        User userAdmin = new User();
+        userAdmin.setStatus(Status.ACTIVE);
+        userAdmin.getRoles().add(roleAdmin);
+        userAdmin.setEmail("admin@aa.aa");
+        userAdmin.setUsername("admin@aa.aa");
+        userAdmin.setPassword("test");
+        userService.register(userAdmin);
 
         Option multiSIM = new Option("MultiSIM", "MultiSIM", 5.5);
         Option hotspot = new Option("HotspotFlat", "Hotspot Flat", 9.0);

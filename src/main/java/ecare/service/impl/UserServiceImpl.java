@@ -61,14 +61,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUserName(String username) {
         User result = userRepository.findByUsername(username);
-        LOGGER.infof("Found user {}", result);
+        LOGGER.infof("Found user %s", result);
         return result;
     }
 
     @Override
     public User findById(Long id) {
         User result = userRepository.findById(id).orElse(null);
-        LOGGER.infof("Found user {}", result);
+        LOGGER.infof("Found user %s", result);
         return result;
     }
 
