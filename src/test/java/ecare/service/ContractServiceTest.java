@@ -17,7 +17,7 @@ import java.util.List;
 
 
 @SpringBootTest
-@Sql("classpath:api-data.sql")
+@Sql("classpath:test-data.sql")
 @Transactional
 @AutoConfigureTestDatabase
 class ContractServiceTest {
@@ -33,7 +33,7 @@ class ContractServiceTest {
     @Test
     void GetAllTariffs() {
         var allTariffs = tariffService.getAllTariffs();
-        Assertions.assertEquals(9, allTariffs.size());
+        Assertions.assertEquals(5, allTariffs.size());
     }
 
     @Test
@@ -88,7 +88,7 @@ class ContractServiceTest {
 
     @Test
     void addOptionToContractValidationError() {
-        String optionName = "Spotify";
+        String optionName = "TestSpotify";
         String contractId = "777";
         try {
             contractService.addOption(contractId, optionName);
@@ -99,7 +99,7 @@ class ContractServiceTest {
 
     @Test
     void removeOptionToContractNegative() {
-        String optionName = "Spotify";
+        String optionName = "TestSpotify";
         String contractId = "777";
         try {
             contractService.removeOption(contractId, optionName);
@@ -111,7 +111,7 @@ class ContractServiceTest {
     @Test
     void changeTariffInContractPositive() throws Exception {
         String contractId = "777";
-        String newTariffName = "L";
+        String newTariffName = "testL";
         ContractDto contractById = contractService.findByBusinessId(contractId);
         String oldTariffName = contractById.getTariff().getTariffName();
 

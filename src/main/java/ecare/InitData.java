@@ -59,7 +59,7 @@ public class InitData implements CommandLineRunner {
         userAdmin.setPassword("test");
         userService.register(userAdmin);*/
 
-        Option multiSIM = new Option("MultiSIM", "MultiSIM", 5.5);
+      /*  Option multiSIM = new Option("MultiSIM", "MultiSIM", 5.5);
         Option hotspot = new Option("HotspotFlat", "Hotspot Flat", 9.0);
         Option spotify = new Option("Spotify", "Spotify", 6.5);
         Option outOfReach = new Option("outOfReach", "without Tariff", 6.5);
@@ -87,7 +87,7 @@ public class InitData implements CommandLineRunner {
         tariffService.saveTariff(tariffM);
 
         Contract contract = new Contract(tariffL, "3127670");
-        contractService.saveContract(contract);
+        contractService.saveContract(contract);*/
 
     }
 

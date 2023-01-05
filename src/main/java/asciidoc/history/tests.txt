@@ -1,0 +1,2 @@
+1. Separate database for tests and dev => application.properties in test/resources
+2. Separate properties for separate tests: @TestPropertySource("/test1.properties")
