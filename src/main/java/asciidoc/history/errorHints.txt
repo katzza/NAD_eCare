@@ -16,4 +16,8 @@ Checking the docs we see that in SQL/H2 User is a reserved keyword.
 5. Many to many 15-17 min
 https://www.youtube.com/watch?v=yRnSUDx3Y8k&t=8s
 
+6. schema of db (api) doesn't created
+spring.jpa.defer-datasource-initialization=true
++ filename = data.sql
+
 
