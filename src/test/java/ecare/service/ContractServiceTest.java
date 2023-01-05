@@ -17,7 +17,7 @@ import java.util.List;
 
 
 @SpringBootTest
-@Sql("classpath:test-data.sql")
+@Sql("classpath:api-data.sql")
 @Transactional
 @AutoConfigureTestDatabase
 class ContractServiceTest {

@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.validation.ConstraintViolationException;
 
 @SpringBootTest
-@Sql("classpath:test-data.sql")
+@Sql("classpath:api-data.sql")
 @Transactional
 @AutoConfigureTestDatabase
 class UserTest {
