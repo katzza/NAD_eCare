@@ -57,7 +57,7 @@ public class AuthenticationRestControllerV1 {
             return ResponseEntity.ok(response);
         } catch (AuthenticationException ex) {
             throw new BadCredentialsException(
-                    "Invalid Username or password");
+                    "Invalid username or password");
         }
     }
 }

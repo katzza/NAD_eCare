@@ -33,7 +33,7 @@ public class InitData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Role roleUser = new Role();
+     /*   Role roleUser = new Role();
         roleUser.setName("ROLE_USER");
         roleUser.setStatus(Status.ACTIVE);
         roleRepository.save(roleUser);
@@ -57,7 +57,7 @@ public class InitData implements CommandLineRunner {
         userAdmin.setEmail("admin@aa.aa");
         userAdmin.setUsername("admin@aa.aa");
         userAdmin.setPassword("test");
-        userService.register(userAdmin);
+        userService.register(userAdmin);*/
 
         Option multiSIM = new Option("MultiSIM", "MultiSIM", 5.5);
         Option hotspot = new Option("HotspotFlat", "Hotspot Flat", 9.0);

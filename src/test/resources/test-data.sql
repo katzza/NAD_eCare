@@ -23,3 +23,18 @@ INSERT INTO tariff_option (tariff_id, option_id)
 VALUES (12, 21);
 INSERT INTO tariff_option (tariff_id, option_id)
 VALUES (12, 22);
+
+INSERT INTO roles (id, name, status)
+VALUES (41, 'ROLE_USER', 'ACTIVE');
+INSERT INTO roles (id, name, status)
+VALUES (42, 'ROLE_ADMIN', 'ACTIVE');
+
+INSERT INTO users (id, username, email, password, status)
+VALUES (51, 'test@aa.aa', 'test@aa.aa', '$2a$04$kd1eRTJuu6AOFwb1.2MMJOBLe3Yg8.5iuJ1da9ww6ulKhRRjXZEBy', 'ACTIVE');
+INSERT INTO users (id, username, email, password, status)
+VALUES (52, 'admin@aa.aa', 'admin@aa.aa', '$2a$04$ZfhTh/sluVm9DncWmOxcnu.LJ8OxLLsaZLIjtmMNIteNyQT/hiz0m', 'ACTIVE');
+
+INSERT INTO user_roles (user_id, role_id)
+VALUES (51, 41);
+INSERT INTO user_roles (user_id, role_id)
+VALUES (52, 42)
