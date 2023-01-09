@@ -6,14 +6,13 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ConstraintViolationException;
+import java.util.HashMap;
 
 @SpringBootTest
 @Sql("classpath:test-data.sql")
@@ -55,6 +54,13 @@ class UserTest {
         } catch (ConstraintViolationException ex) {
             Assertions.assertEquals("login.userDto.username: Login should be email", ex.getMessage());
         }
+    }
+
+    @Test
+    void bearerWrong() {
+        UserDto userDto = new UserDto(userName, password);
+        var responseEntity = authenticationRestControllerV1.login(userDto);
+        var token = ((HashMap) responseEntity.getBody()).get("token").toString()+"a";
     }
 
 }

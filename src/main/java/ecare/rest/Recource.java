@@ -20,7 +20,7 @@ import static org.jboss.logging.Logger.getLogger;
 @Validated
 @CrossOrigin
 @RestController
-@RequestMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+@RequestMapping(value = "ecare/v1", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 public class Recource {
 
     @Autowired

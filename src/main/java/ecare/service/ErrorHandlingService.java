@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolationException;
 
+import java.security.SignatureException;
+
 import static org.jboss.logging.Logger.getLogger;
 
 @RestControllerAdvice
@@ -51,8 +53,17 @@ public class ErrorHandlingService {
         );
     }
 
-    @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<ApiError> badCredentialsExceptionHandler(AuthenticationException ex) {
+ /*   @ExceptionHandler({JwtAuthenticationException.class, SignatureException.class})
+    public ResponseEntity<ApiError> badCredentialsExceptionHandler(Exception ex) {
+        LOGGER.error(ex.getMessage());
+        return new ResponseEntity<>(
+                new ApiError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED, ex.getMessage()),
+                HttpStatus.UNAUTHORIZED
+        );
+    }*/
+
+    @ExceptionHandler
+    public ResponseEntity<ApiError> jwtAuthenticationExceptionHandler(ecare.security.jwt.JwtAuthenticationException ex) {
         LOGGER.error(ex.getMessage());
         return new ResponseEntity<>(
                 new ApiError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED, ex.getMessage()),

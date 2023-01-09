@@ -2,6 +2,8 @@ package ecare.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -11,6 +13,8 @@ import java.util.Set;
 @JsonSerialize
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
+@Data
+@NoArgsConstructor
 @Table(name = "contract")
 public class Contract {
 
@@ -32,13 +36,6 @@ public class Contract {
         this.businessId = businessId;
     }
 
-    public Contract() {
-    }
-
-    public Long getContractId() {
-        return contractId;
-    }
-
     @ManyToMany(cascade = {
             CascadeType.PERSIST, CascadeType.MERGE
     }, fetch = FetchType.EAGER)
@@ -52,47 +49,5 @@ public class Contract {
             }
     )
     Set<Option> options = new HashSet<>();
-
-    public Set<Option> getOptions() {
-        return options;
-    }
-
-    public void setOptions(Set<Option> options) {
-        this.options = options;
-    }
-
-    public void setContractId(Long contractId) {
-        this.contractId = contractId;
-    }
-
-    public String getBusinessId() {
-        return businessId;
-    }
-
-    public void setBusinessId(String businessId) {
-        this.businessId = businessId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Contract contract = (Contract) o;
-        return contractId == contract.contractId && Objects.equals(businessId, contract.businessId) && Objects.equals(tariff, contract.tariff);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(contractId, businessId, tariff);
-    }
-
-    public void setTariff(Tariff tariff) {
-        this.tariff = tariff;
-    }
-
-    public Tariff getTariff() {
-        return tariff;
-    }
-
 
 }
