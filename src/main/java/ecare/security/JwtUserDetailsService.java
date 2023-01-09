@@ -23,7 +23,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         this.userService = userService;
     }
 
-    private static final Logger LOGGER = getLogger(ContractService.class);
+    private static final Logger LOGGER = getLogger(JwtUserDetailsService.class);
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

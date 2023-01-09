@@ -56,11 +56,4 @@ class UserTest {
         }
     }
 
-    @Test
-    void bearerWrong() {
-        UserDto userDto = new UserDto(userName, password);
-        var responseEntity = authenticationRestControllerV1.login(userDto);
-        var token = ((HashMap) responseEntity.getBody()).get("token").toString()+"a";
-    }
-
 }
