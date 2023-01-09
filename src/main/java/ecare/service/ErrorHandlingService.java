@@ -25,7 +25,7 @@ public class ErrorHandlingService {
 
     private static final Logger LOGGER = getLogger(ErrorHandlingService.class);
 
-    @ExceptionHandler
+    @ExceptionHandler(ServiceException.class)
     public ResponseEntity<ApiError> serviceExceptionHandler(ServiceException ex) {
         LOGGER.error(ex.getMessage());
         return new ResponseEntity<>(
@@ -33,7 +33,6 @@ public class ErrorHandlingService {
                 ex.getStatus()
         );
     }
-
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ApiError> validationExceptionHandler(Exception ex) {
@@ -50,24 +49,6 @@ public class ErrorHandlingService {
         return new ResponseEntity<>(
                 new ApiError(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST, "Check your input, some required data is not set"),
                 HttpStatus.BAD_REQUEST
-        );
-    }
-
- /*   @ExceptionHandler({JwtAuthenticationException.class, SignatureException.class})
-    public ResponseEntity<ApiError> badCredentialsExceptionHandler(Exception ex) {
-        LOGGER.error(ex.getMessage());
-        return new ResponseEntity<>(
-                new ApiError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED, ex.getMessage()),
-                HttpStatus.UNAUTHORIZED
-        );
-    }*/
-
-    @ExceptionHandler
-    public ResponseEntity<ApiError> jwtAuthenticationExceptionHandler(ecare.security.jwt.JwtAuthenticationException ex) {
-        LOGGER.error(ex.getMessage());
-        return new ResponseEntity<>(
-                new ApiError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED, ex.getMessage()),
-                HttpStatus.UNAUTHORIZED
         );
     }
 

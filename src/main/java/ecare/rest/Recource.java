@@ -1,5 +1,6 @@
 package ecare.rest;
 
+import ecare.dto.ApiError;
 import ecare.dto.ContractDto;
 import ecare.dto.TariffDto;
 import ecare.model.Contract;
@@ -8,8 +9,12 @@ import ecare.service.ContractService;
 import ecare.service.TariffService;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
@@ -74,6 +79,14 @@ public class Recource {
     public List<ContractDto> getAllContracts() {
         LOGGER.info("GET all contracts");
         return contractService.getAllContracts();
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ApiError> handleError(MethodArgumentNotValidException e) {
+        final var message = e.getFieldErrors();
+        message.stream()
+                .map(f -> f.getDefaultMessage()).toList();
+        return ResponseEntity.badRequest().body(new ApiError(400, HttpStatus.BAD_REQUEST, message.toString()));
     }
 
 }
