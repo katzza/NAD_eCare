@@ -1,15 +1,18 @@
 package ecare.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
+@Data
+@NoArgsConstructor
 @Table(name = "tariff")
 public class Tariff implements Serializable {
 
@@ -30,8 +33,6 @@ public class Tariff implements Serializable {
     @Column(name = "tariff_grade", nullable = false)
     private int tariffGrade;
 
-    public Tariff() {
-    }
 
     public Tariff(String tariffName,
                   String tariffDescription,
@@ -41,51 +42,6 @@ public class Tariff implements Serializable {
         this.tariffDescription = tariffDescription;
         this.tariffPrice = tariffPrice;
         this.tariffGrade = tariffGrade;
-    }
-
-    public Long getTariffId() {
-        return tariffId;
-    }
-
-    public void setTariffId(Long tariffId) {
-        this.tariffId = tariffId;
-    }
-
-    public String getTariffName() {
-        return tariffName;
-    }
-
-    public String getTariffDescription() {
-        return tariffDescription;
-    }
-
-    public void setTariffDescription(String tariffDescription) {
-        this.tariffDescription = tariffDescription;
-    }
-
-    public void setTariffName(String tariffName) {
-        this.tariffName = tariffName;
-    }
-
-    public Double getTariffPrice() {
-        return tariffPrice;
-    }
-
-    public void setTariffPrice(Double tariffPrice) {
-        this.tariffPrice = tariffPrice;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Tariff tariff = (Tariff) o;
-        return Double.compare(tariff.tariffPrice, tariffPrice) == 0 && tariffGrade == tariff.tariffGrade && tariffId.equals(tariff.tariffId) && tariffName.equals(tariff.tariffName) && tariffDescription.equals(tariff.tariffDescription);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(tariffId, tariffName, tariffDescription, tariffPrice, tariffGrade);
     }
 
     @ManyToMany(cascade = {
@@ -102,20 +58,5 @@ public class Tariff implements Serializable {
     )
     private Set<Option> options = new HashSet<>();
 
-    public Set<Option> getOptions() {
-        return options;
-    }
-
-    public void setOptions(Set<Option> options) {
-        this.options = options;
-    }
-
-    public int getTariffGrade() {
-        return tariffGrade;
-    }
-
-    public void setTariffGrade(int tariffGrade) {
-        this.tariffGrade = tariffGrade;
-    }
 }
 
