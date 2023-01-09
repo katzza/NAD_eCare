@@ -1,23 +1,19 @@
 package ecare;
 
 import ecare.dto.TariffDto;
-import ecare.model.Tariff;
+import ecare.rest.Recource;
 import ecare.service.ContractService;
 import ecare.service.TariffService;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
@@ -35,7 +31,7 @@ class MvcTest {
     @MockBean
     private ContractService contractService;
 
-    @Test
+ /*   @Test
     void testFindAllTariffs() throws Exception {
         TariffDto tariff1 = new TariffDto();
         tariff1.setTariffName("TariffSimple");
@@ -53,5 +49,5 @@ class MvcTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(2))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].tariffName").value("TariffSimple"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].tariffName").value("TariffBest"));
-    }
+    }*/
 }

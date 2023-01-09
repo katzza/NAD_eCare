@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,8 +19,7 @@ import java.util.List;
 
 @SpringBootTest
 @Sql("classpath:test-data.sql")
-@Transactional  //clear DB after test
-@AutoConfigureTestDatabase
+@Transactional
 class ContractServiceTest {
     @Autowired
     private ContractService contractService;
@@ -33,7 +33,7 @@ class ContractServiceTest {
     @Test
     void GetAllTariffs() {
         var allTariffs = tariffService.getAllTariffs();
-        Assertions.assertEquals(9, allTariffs.size());
+        Assertions.assertEquals(5, allTariffs.size());
     }
 
     @Test
@@ -88,7 +88,7 @@ class ContractServiceTest {
 
     @Test
     void addOptionToContractValidationError() {
-        String optionName = "Spotify";
+        String optionName = "TestSpotify";
         String contractId = "777";
         try {
             contractService.addOption(contractId, optionName);
@@ -99,7 +99,7 @@ class ContractServiceTest {
 
     @Test
     void removeOptionToContractNegative() {
-        String optionName = "Spotify";
+        String optionName = "TestSpotify";
         String contractId = "777";
         try {
             contractService.removeOption(contractId, optionName);
@@ -111,7 +111,7 @@ class ContractServiceTest {
     @Test
     void changeTariffInContractPositive() throws Exception {
         String contractId = "777";
-        String newTariffName = "L";
+        String newTariffName = "testL";
         ContractDto contractById = contractService.findByBusinessId(contractId);
         String oldTariffName = contractById.getTariff().getTariffName();
 

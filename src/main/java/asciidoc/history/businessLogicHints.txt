@@ -4,3 +4,6 @@ business values - Strings or primitives
 
 2. Use custom Exceptions instead of standard
 EntityNotFoundException - extends RuntimeException - unchecked
+
+3. Get = read, Post = insert, Put = update all fields, Patch = update one field, Delete = delete
+

@@ -1,4 +1,4 @@
-package ecare;
+package ecare.rest;
 
 import ecare.dto.ContractDto;
 import ecare.dto.TariffDto;
@@ -20,7 +20,7 @@ import static org.jboss.logging.Logger.getLogger;
 @Validated
 @CrossOrigin
 @RestController
-@RequestMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+@RequestMapping(value = "ecare/v1", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 public class Recource {
 
     @Autowired
@@ -39,34 +39,34 @@ public class Recource {
 
     @GetMapping("/possibletariffs")
     public List<TariffDto> getPossibleTariffs(@RequestParam @NotBlank String contractId) throws ServiceException {
-        LOGGER.info("GET tariffs possible for change ");
+        LOGGER.infof("GET tariffs possible for contract %s", contractId);
         return contractService.getTariffsToContract(contractId);
     }
 
-    @PostMapping("/changetariff")
+    @PutMapping("/changetariff")
     @ResponseBody
     public Contract changeTariff(@RequestParam @NotBlank String contractId, @RequestParam @NotBlank String newTariffName) throws ServiceException {
-        LOGGER.info("Select new tariff to contract");
+        LOGGER.infof("Select new tariff %s to contract %s", newTariffName, contractId);
         return contractService.setTariffToContract(contractId, newTariffName);
     }
 
-    @PostMapping("/addoption")
+    @PutMapping("/addoption")
     @ResponseBody
     public Contract addOption(@RequestParam @NotBlank String contractId, @RequestParam @NotBlank String optionName) throws ServiceException {
-        LOGGER.info("Add option to contract");
+        LOGGER.infof("Add option %s to contract %s", optionName, contractId);
         return contractService.addOption(contractId, optionName);
     }
 
-    @PostMapping("/removeoption")
+    @PutMapping("/removeoption")
     @ResponseBody
     public Contract removeOption(@RequestParam @NotBlank String contractId, @RequestParam @NotBlank String optionName) throws ServiceException {
-        LOGGER.info("Add option to contract");
+        LOGGER.infof("Remove option %s from contract %s", optionName, contractId);
         return contractService.removeOption(contractId, optionName);
     }
 
     @GetMapping("/tariff/{tariffName}")
     public TariffDto getTariffByName(@PathVariable("tariffName") @NotBlank String tariffName) throws ServiceException {
-        LOGGER.info("GET tariff by name");
+        LOGGER.infof("GET tariff by name %s", tariffName);
         return tariffService.findByTariffName(tariffName);
     }
 
