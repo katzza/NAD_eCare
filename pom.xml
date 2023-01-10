@@ -123,6 +123,12 @@
             <artifactId>microprofile-openapi-api</artifactId>
             <version>3.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/io.smallrye/smallrye-open-api-spring -->
+        <dependency>
+            <groupId>io.smallrye</groupId>
+            <artifactId>smallrye-open-api-spring</artifactId>
+            <version>3.1.1</version>
+        </dependency>
 
 
     </dependencies>
