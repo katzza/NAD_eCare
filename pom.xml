@@ -116,6 +116,14 @@
             <artifactId>jacoco-maven-plugin</artifactId>
             <version>0.8.8</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.eclipse.microprofile.openapi/microprofile-openapi-api -->
+        <!-- openapi-api generation-->
+        <dependency>
+            <groupId>org.eclipse.microprofile.openapi</groupId>
+            <artifactId>microprofile-openapi-api</artifactId>
+            <version>3.1</version>
+        </dependency>
+
 
     </dependencies>
 
@@ -125,6 +133,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <!-- define and verify test coverage-->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
