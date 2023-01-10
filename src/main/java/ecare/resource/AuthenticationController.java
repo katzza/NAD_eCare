@@ -1,4 +1,4 @@
-package ecare.rest;
+package ecare.resource;
 
 
 import ecare.dto.UserDto;
@@ -25,7 +25,7 @@ import java.util.Map;
 @Validated
 @RestController
 @RequestMapping(value = "ecare/v1/auth")
-public class AuthenticationRestControllerV1 {
+public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
 
@@ -34,8 +34,7 @@ public class AuthenticationRestControllerV1 {
     private final UserService userService;
 
     @Autowired
-
-    public AuthenticationRestControllerV1(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserService userService) {
+    public AuthenticationController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserService userService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
         this.userService = userService;
