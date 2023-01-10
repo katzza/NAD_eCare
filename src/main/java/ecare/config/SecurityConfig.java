@@ -18,6 +18,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String LOGIN_ENDPOINT = "/ecare/v1/auth/login";
     private static final String H2_ENDPOINT = "/h2-console/**";
     private static final String OPENAPI_ENDPOINT = "/v3/api-docs/**";
+    private static final String SWAGGER_ENDPOINT = "/swagger-ui/**";
 
     @Autowired
     public SecurityConfig(JwtTokenProvider jwtTokenProvider) {
@@ -38,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(LOGIN_ENDPOINT, H2_ENDPOINT, OPENAPI_ENDPOINT).permitAll()
+                .antMatchers(LOGIN_ENDPOINT, H2_ENDPOINT, OPENAPI_ENDPOINT, SWAGGER_ENDPOINT).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider))

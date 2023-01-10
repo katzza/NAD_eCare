@@ -3,3 +3,6 @@ https://struchkov.dev/blog/exception-handling-controlleradvice/
 
 2. validation
 @NotEmpty etc + spring-boot-starter-validation in pom.xml
+
+3. openapi
+https://www.baeldung.com/spring-rest-openapi-documentation
