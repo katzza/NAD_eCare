@@ -1,0 +1,330 @@
+{
+	"info": {
+		"_postman_id": "cc0324c4-fc58-4ed4-884e-4b3a17e7f937",
+		"name": "eCare_rest_simple_test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13099368"
+	},
+	"item": [
+		{
+			"name": "localhost/tariif/all",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Size of tariffs-array is 5\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.eql(5);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorisation",
+						"value": "Bearer_eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGFhLmFhIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTY3Mjg2NDUyMywiZXhwIjoxNjcyODY4MTIzfQ.gISx8iH-iob48fmhdkYwNSIk3PCmHJSAt7VZgjAbmW",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "login",
+							"value": "wс@wc.r",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "r",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8383/ecare/v1/tariff/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8383",
+					"path": [
+						"ecare",
+						"v1",
+						"tariff",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost/tariifByName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8383/ecare/v1/tariff/S",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8383",
+					"path": [
+						"ecare",
+						"v1",
+						"tariff",
+						"S"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost/contracts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8383/ecare/v1/contract/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8383",
+					"path": [
+						"ecare",
+						"v1",
+						"contract",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost/contract/possibletariffs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8383/ecare/v1/contract/possibletariffs?contractId=777",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8383",
+					"path": [
+						"ecare",
+						"v1",
+						"contract",
+						"possibletariffs"
+					],
+					"query": [
+						{
+							"key": "contractId",
+							"value": "777"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost/contract/addoption",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8383/ecare/v1/contract/addoption?contractId=777&optionName=MultiSIM",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8383",
+					"path": [
+						"ecare",
+						"v1",
+						"contract",
+						"addoption"
+					],
+					"query": [
+						{
+							"key": "contractId",
+							"value": "777"
+						},
+						{
+							"key": "optionName",
+							"value": "MultiSIM"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost/contract/removeOption",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8383/ecare/v1/contract/removeoption?contractId=777&optionName=MultiSIM",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8383",
+					"path": [
+						"ecare",
+						"v1",
+						"contract",
+						"removeoption"
+					],
+					"query": [
+						{
+							"key": "contractId",
+							"value": "777"
+						},
+						{
+							"key": "optionName",
+							"value": "MultiSIM"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost/contract/changetariff",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8383/ecare/v1/contract/changetariff?contractId=777&newTariffName=S",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8383",
+					"path": [
+						"ecare",
+						"v1",
+						"contract",
+						"changetariff"
+					],
+					"query": [
+						{
+							"key": "contractId",
+							"value": "777"
+						},
+						{
+							"key": "newTariffName",
+							"value": "S"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost/login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"user@aa.aa\",\r\n    \"password\":\"test\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8383/ecare/v1/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8383",
+					"path": [
+						"ecare",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{currentAccessToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"let body = {",
+					"    \"username\":\"user@aa.aa\",",
+					"    \"password\":\"test\"",
+					"}",
+					"",
+					"const loginRequest = {",
+					"                url: 'http://localhost:8383/ecare/v1/auth/login',",
+					"                method: 'POST',",
+					"                header: ['Content-Type:application/json', 'Accept:*/*'],",
+					"                body: {",
+					"    mode: 'raw',",
+					"    raw: JSON.stringify(body)}",
+					"  }",
+					"",
+					" pm.sendRequest(loginRequest, function (err, res) {",
+					"    console.log(err ? err : res.json());",
+					"        if (err === null) {",
+					"            console.log('Saving the token')",
+					"            var responseJson = res.json();",
+					"            pm.environment.set('currentAccessToken', responseJson.token);",
+					"            console.log (responseJson);",
+					"        }",
+					"    });",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {",
+					"    pm.response.to.have.status(200);",
+					"});",
+					""
+				]
+			}
+		}
+	]
+}

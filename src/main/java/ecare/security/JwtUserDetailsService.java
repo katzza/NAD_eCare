@@ -3,7 +3,6 @@ package ecare.security;
 import ecare.model.User;
 import ecare.security.jwt.JwtUser;
 import ecare.security.jwt.JwtUserFactory;
-import ecare.service.ContractService;
 import ecare.service.UserService;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
