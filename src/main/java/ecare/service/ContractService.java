@@ -58,7 +58,7 @@ public class ContractService {
      * @param tariffName id of new tariff to the contract
      * @return updated contract with the new tariff
      */
-    public Contract setTariffToContract(String contractId, String tariffName) throws ServiceException {
+    public ContractDto setTariffToContract(String contractId, String tariffName) throws ServiceException {
         Contract contract = findEntityByBusinessId(contractId);
         int currentTariffGrade = contract.getTariff().getTariffGrade();
         LOGGER.infof("Current tariffGrade is %s", currentTariffGrade);
@@ -69,7 +69,12 @@ public class ContractService {
         contract.setTariff(tariff);
         contract.setOptions(new HashSet<>());
         LOGGER.info("Tariff will we changed, options removed");
-        return contractRepository.save(contract);
+        return updateContract(contract);
+    }
+
+    private ContractDto updateContract(Contract contract) {
+        Contract updatedContract = contractRepository.save(contract);
+        return convertToDto(updatedContract);
     }
 
     public Contract createContract(ContractDto contract) {
@@ -81,22 +86,22 @@ public class ContractService {
         return contractRepository.save(contract);
     }
 
-    public Contract addOption(String contractId, String optionName) throws ServiceException {
+    public ContractDto addOption(String contractId, String optionName) throws ServiceException {
         Contract contract = findEntityByBusinessId(contractId);
         Option option = optionService.findEntityByOptionName(optionName);
         validatorService.validateCompatibility(contract, option);
         contract.getOptions().add(option);
         LOGGER.info("Option will be added");
-        return contractRepository.save(contract);
+        return updateContract(contract);
     }
 
-    public Contract removeOption(String contractId, String optionName) throws ServiceException {
+    public ContractDto removeOption(String contractId, String optionName) throws ServiceException {
         Contract contract = findEntityByBusinessId(contractId);
         Option option = optionService.findEntityByOptionName(optionName);
         validatorService.validateRemovability(contract, option);
         contract.getOptions().remove(option);
         LOGGER.info("Option will be removed");
-        return contractRepository.save(contract);
+        return updateContract(contract);
     }
 
     public List<TariffDto> getTariffsToContract(String contractId) throws ServiceException {

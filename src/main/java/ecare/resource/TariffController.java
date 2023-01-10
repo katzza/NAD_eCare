@@ -4,15 +4,15 @@ import ecare.dto.TariffDto;
 import ecare.model.ServiceException;
 import ecare.service.TariffService;
 
-import org.eclipse.microprofile.openapi.annotations.Operation;
-import org.eclipse.microprofile.openapi.annotations.enums.ParameterIn;
-import org.eclipse.microprofile.openapi.annotations.media.Content;
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
-import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
-import org.eclipse.microprofile.openapi.annotations.parameters.Parameters;
-import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
-import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
-import org.eclipse.microprofile.openapi.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -37,14 +37,14 @@ public class TariffController {
     private static final Logger LOGGER = getLogger(TariffController.class);
 
     @Operation(summary = "Return all tariffs")
-    @APIResponses(value = {@APIResponse(responseCode = "400", description = "Bad Request"),
-            @APIResponse(responseCode = "401", description = "Unauthorized"),
-            @APIResponse(responseCode = "403", description = "Forbidden"),
-            @APIResponse(responseCode = "404", description = "Not found"),
-            @APIResponse(responseCode = "500", description = "Internal Server Error"),
-            @APIResponse(responseCode = "503", description = "Service Unavailable"),
-            @APIResponse(responseCode = "504", description = "Gateway Timeout"),
-            @APIResponse(responseCode = "200", description = "OK", content = @Content(schema =
+    @ApiResponses(value = {@ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "404", description = "Not found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error"),
+            @ApiResponse(responseCode = "503", description = "Service Unavailable"),
+            @ApiResponse(responseCode = "504", description = "Gateway Timeout"),
+            @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema =
             @Schema(implementation =
                     ArrayList.class)))})
     @GetMapping("/all")
@@ -54,21 +54,19 @@ public class TariffController {
     }
 
     @Operation(summary = "Return tariffs by name of the tariff")
-    @Parameters(value = {@Parameter(name = "tariffname", in = ParameterIn.PATH, description =
-            "Name of the tariff", schema = @Schema(implementation = String.class), examples = {
-            @ExampleObject(name = "Return tariff for tariffname = M", summary =
-                    "Return tariff for tariffname equal to M", description = "Return tariff for tariffname equal to M",
-                    value = "M")})})
-    @APIResponses(value = {@APIResponse(responseCode = "400", description = "Bad Request"),
-            @APIResponse(responseCode = "401", description = "Unauthorized"),
-            @APIResponse(responseCode = "403", description = "Forbidden"),
-            @APIResponse(responseCode = "404", description = "Not found"),
-            @APIResponse(responseCode = "500", description = "Internal Server Error"),
-            @APIResponse(responseCode = "503", description = "Service Unavailable"),
-            @APIResponse(responseCode = "504", description = "Gateway Timeout"),
-            @APIResponse(responseCode = "200", description = "OK", content = @Content(schema =
-            @Schema(implementation =
-                    TariffDto.class)))})
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Found the tariff",
+            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = TariffDto.class))}),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "404", description = "Not found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error"),
+            @ApiResponse(responseCode = "503", description = "Service Unavailable"),
+            @ApiResponse(responseCode = "504", description = "Gateway Timeout")})
+    @Parameters(value = {@Parameter(name = "tariffname", in = ParameterIn.PATH,
+            description = "Name of the tariff", schema = @Schema(implementation = String.class),
+            examples = {@ExampleObject(name = "Return tariff for tariffname = M",
+            summary = "Return tariff for tariffname equal to M", description = "Return tariff for tariffname equal to M", value = "M")})})
     @GetMapping("{tariffName}")
     public TariffDto getTariffByName(@PathVariable("tariffName") @NotBlank String tariffName) throws ServiceException {
         LOGGER.infof("GET tariff by name %s", tariffName);
